@@ -1,8 +1,8 @@
 import { create } from "apisauce";
 
 const api = create({
-  // baseURL: "https://servidor-tees-tcc.herokuapp.com/api/"
-  baseURL: "http://localhost:3000/api/",
+  baseURL: "http://127.0.0.1:3000/api",
+  headers: { "Content-Type": "application/json" },
 });
 
 export default api;

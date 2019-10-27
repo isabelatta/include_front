@@ -1,0 +1,50 @@
+body {
+  overflow: hidden;
+}
+
+.LoginBtn {
+  position: absolute;
+  top: 55%;
+  left: 39%;
+  width: 18%;
+  border-color: #f95f62 !important;
+  color: #f95f62 !important;
+  font-family: arial;
+}
+
+.LoginBtn:hover {
+  color: #ffff !important;
+  background-color: #f95f62 !important;
+}
+
+.LoginBtn:active {
+  color: #ffff !important;
+  background-color: #f95f62 !important;
+}
+
+.LoginBtn:focus {
+  box-shadow: 0 0 0 0.2rem rgba(226, 151, 195, 0.5) !important;
+}
+
+.FormLogin {
+  width: 35%;
+  position: absolute;
+  top: 40%;
+  left: 30%;
+}
+
+.RegisterBtn {
+  position: absolute;
+  right: 0;
+  color: #77d353 !important;
+  font-weight: bolder !important;
+}
+
+/* Tela de Cadastro */
+
+.FormCadastro {
+  width: 35%;
+  position: absolute;
+  top: 35%;
+  left: 30%;
+}
