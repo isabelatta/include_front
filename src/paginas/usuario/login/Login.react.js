@@ -19,12 +19,24 @@ class Login extends Component {
         usuario: 1,
     };
   }
+
+  handleChange = (event) => {
+    const target = event.target;
+    const name = target.name;
+    const value = target.value;
+    this.setState({
+      [name]: value,
+    });
+  }
       
   entrar = async submitted => {
+    const {email, senha} = this.state
+
     const values = {
-      usuario: 'admin',
-      senha: '1'
+      email,
+      senha
     }
+
     const response = await api.post("/login/auth", values);
     console.log(response);
   };
@@ -45,10 +57,20 @@ class Login extends Component {
         <div>
             <Form className="FormLogin">
                 <Form.Group  controlId="formPlaintextLogin">
-                    <Form.Control type="text" placeholder="Usuario" />   
+                    <Form.Control
+                      name="email" 
+                      type="text" 
+                      placeholder="Email"
+                      onChange={this.handleChange}
+                    />   
                 </Form.Group>
                 <Form.Group  controlId="formPlaintextPassword">
-                    <Form.Control type="password" placeholder="Senha" />   
+                    <Form.Control 
+                      name="senha"
+                      type="password" 
+                      placeholder="Senha" 
+                      onChange={this.handleChange}
+                    />   
                 </Form.Group>
             </Form>
             <Button variant="flat" className="LoginBtn" onClick={() => this.entrar()} >Entrar</Button>
