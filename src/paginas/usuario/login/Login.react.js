@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import api from "../../../uteis/api";
+
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import api from "../../../uteis/api";
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
+
+import {BrowserRouter as Router, Route, Link, Redirect} from 'react-router-dom'
 
 import BgLogin from './componentes/BgLogin.react';
 import Cadastro from './Cadastro.react'
@@ -16,8 +18,9 @@ class Login extends Component {
   constructor() {
     super();
     this.state = {
-        usuario: 1,
+        authSuccess: null,
     };
+    document.body.style.overflow = "hidden";
   }
 
   handleChange = (event) => {
@@ -37,14 +40,35 @@ class Login extends Component {
       senha
     }
 
-    const response = await api.post("/login/auth", values);
+    const response = await api.post("/usuario/auth", values);
     console.log(response);
+    if(response.status === 200){
+      this.setState({
+        authSuccess : true
+      })
+    } else {
+      this.setState({
+        authSuccess : false
+      })
+    }
   };
+
+  renderRedirect = () => {
+    const { authSuccess } = this.state;
+    if (authSuccess) {
+      return <Redirect to="/home" />;
+    }
+     else if(!authSuccess){
+       console.log("error")
+     }
+  };
+
 
 
   render() {
     return (
       <div>
+        {this.renderRedirect()}
         <BgLogin/>
         <Link
           // className="cadastroButton"

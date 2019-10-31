@@ -1,0 +1,17 @@
+.navBg {
+    background-color: #ffffff;
+    border-bottom: 1px solid #8190a53d;
+}
+
+.navProf {
+    color: #47525E !important;
+    font-family: unset !important;
+    font-size: 15px;
+}
+
+.navCriarSala {
+    color: #77d353 !important;
+    font-weight: 500 !important;
+    font-size: 15px;
+  }
+

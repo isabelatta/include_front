@@ -40,7 +40,7 @@ class Cadastro extends Component {
   }
       
   cadastrar = async submitted => {
-    const { email, nome, senha, checkEmail, checkNome, checkSenha} = this.state;
+    const { email, nome, senha } = this.state;
 
     const values = {
       email, 
@@ -48,9 +48,12 @@ class Cadastro extends Component {
       senha
     };
 
-    this.check()
+    await this.check()
 
-    if(checkEmail === true && checkNome === true && checkSenha === true){
+    const { checkEmail, checkNome, checkSenha } = this.state;
+    console.warn(checkSenha);
+
+    if(checkEmail && checkNome && checkSenha){
       const response = await api.post("/usuario/cadastrar", values);
       console.log(response);
     }

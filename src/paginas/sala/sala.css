@@ -1,0 +1,65 @@
+.styleCardHeader {
+    height: 100%;
+    text-align: center;
+    font-size: 32px;
+    color: #FFFFFF;
+    background-color: #eedefe;
+    border-color: #fff;
+    border-radius: 0px !important;
+    font-family: unset;
+    font-weight: 600;
+    padding: 10%;
+}
+
+.styleCard {
+    border-color: #fff;
+    margin-right: 30px !important;
+}
+
+.styleCardBody {
+    padding: 0px;
+    padding-top: 5%;
+}
+
+.styleBody{
+    font-size: 15px;
+    color: #8190A5;
+    margin-bottom: 2%;
+}
+
+.styleData{
+    font-size: 13px;
+    margin-bottom: 2%;
+    color: #47525E;
+}
+
+.styleTitle{
+    color: #47525E;
+    margin-bottom: 2%;
+}
+
+.styleDeckAberto {
+    padding-top: 1%;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.styleDeckFechado {
+    padding-top: 1%;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+.styleText{
+    padding-top: 2%;
+    padding-right: 4%;
+    padding-left: 1%;
+    padding-bottom: 0.5%;
+    border-bottom: 1px solid #673ab738;
+    font-family: unset;
+    font-weight: 300;
+    color: #47525E;
+    font-size: xx-large;
+    margin-left: 3%;
+    margin-right: 3%;
+}
