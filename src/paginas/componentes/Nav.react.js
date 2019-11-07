@@ -12,10 +12,12 @@ class Navb extends Component {
     }
 
     render(){
+        const prof = "Professor " + localStorage.getItem("nome");
+
         return(
             <div className="divBorder">
             <Navbar expand="lg" className="navBg">
-                <Navbar.Brand href="#home" className="navProf">Professor Lorem Ipsum</Navbar.Brand>
+                <Navbar.Brand href="#home" className="navProf">{prof}</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="mr-auto">

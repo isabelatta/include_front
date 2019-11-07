@@ -14,6 +14,7 @@
 .styleCard {
     border-color: #fff;
     margin-right: 30px !important;
+    max-width: 28%;
 }
 
 .styleCardBody {

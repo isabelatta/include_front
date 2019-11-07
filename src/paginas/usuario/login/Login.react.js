@@ -46,6 +46,8 @@ class Login extends Component {
       this.setState({
         authSuccess : true
       })
+      localStorage.setItem('id',response.data.id);
+      localStorage.setItem('nome',response.data.nome);
     } else {
       this.setState({
         authSuccess : false
