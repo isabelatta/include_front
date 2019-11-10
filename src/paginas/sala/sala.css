@@ -9,12 +9,50 @@
     font-family: unset;
     font-weight: 600;
     padding: 10%;
+    min-height: 160px;
+}
+
+.buttonsCarrousel{
+    position: absolute;
+    width: 100%;
+    z-index: 10;
+}
+
+.buttonRight {
+    position: absolute;
+    right: 5%;
+    margin-top: 7%;
+}
+
+.buttonLeft {
+    position: absolute;
+    left: 5%;
+    margin-top: 7%;   
+}
+
+.buttonCarrousel{
+    cursor: pointer;
+    font-size: 38px;
+    color: #969FAA;
+}
+
+.buttonCarrousel:hover {
+    color: #6F7986;
 }
 
 .styleCard {
     border-color: #fff;
-    margin-right: 30px !important;
-    max-width: 28%;
+    margin-right: 5% !important;
+    margin-left: 5% !important;
+}
+
+.alice-carousel {
+    padding-right: 8%;
+    padding-left: 8%;
+    padding-top: 2%;
+    /* margin-left: 10%; */
+    /* margin-right: 10%; */
+    /* padding-left: 5%; */
 }
 
 .styleCardBody {

@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom'
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import 'react-alice-carousel/lib/alice-carousel.css';
 import api from "../../uteis/api";
 import moment from "moment";
 
-import '../sala/sala.css'
+import '../sala/sala.css';
 
-import CardDeck from 'react-bootstrap/CardDeck'
-import Card from 'react-bootstrap/Card'
+import CardDeck from 'react-bootstrap/CardDeck';
+import Card from 'react-bootstrap/Card';
 
-import Navb from '../componentes/Nav.react'
+
+import Navb from '../componentes/Nav.react';
+import Carrousel from './componentes/Carrousel.react';
 
 
 const color = [
@@ -24,7 +27,9 @@ const color = [
 		id: 3,
 		cor: "#FF9052"
 	},
-]
+];
+
+
  class SalaView extends Component {
     constructor() {
 			super();
@@ -63,20 +68,22 @@ const color = [
 				salas.forEach(sala => {
 				 let dataCriacao = moment(sala.data).format("DD/MM/YYYY")
 					cards.push(
-						<Card className= "styleCard">
-							<Card.Header className = "styleCardHeader" style={{ backgroundColor: color[1].cor }}>
-								Assunto 1
-							</Card.Header>
-							<Card.Body className="styleCardBody">
-								<Card.Title className="styleTitle"> {sala.nome}</Card.Title>
-								<Card.Text className = "styleData">
-										{dataCriacao}
-								</Card.Text>
-								<Card.Text className = "styleBody">
-									{sala.descri}
-								</Card.Text>
-							</Card.Body>
-						</Card>
+						// <div>
+							<Card className= "styleCard">
+								<Card.Header className = "styleCardHeader" style={{ backgroundColor: color[1].cor }}>
+									Assunto 1
+								</Card.Header>
+								<Card.Body className="styleCardBody">
+									<Card.Title className="styleTitle"> {sala.nome}</Card.Title>
+									<Card.Text className = "styleData">
+											{dataCriacao}
+									</Card.Text>
+									<Card.Text className = "styleBody">
+										{sala.descri}
+									</Card.Text>
+								</Card.Body>
+							</Card>
+						// </div>
 					)
 				});
         return cards
@@ -87,61 +94,73 @@ const color = [
 					salas.forEach(sala => {
 						let dataCriacao = moment(sala.data).format("DD/MM/YYYY")
             cards.push(
-                <Card className= "styleCard">
-                <Card.Header className = "styleCardHeader" style={{ backgroundColor: "#77D353" }}>
-								 Assunto 2
-								</Card.Header>
-                <Card.Body className="styleCardBody">
-                <Card.Title className="styleTitle">{sala.nome}</Card.Title>
-								<Card.Text className = "styleData">
+              <Card className= "styleCard">
+									<Card.Header className = "styleCardHeader" style={{ backgroundColor: "#77D353" }}>
+									Assunto 2
+									</Card.Header>
+									<Card.Body className="styleCardBody">
+										<Card.Title className="styleTitle">{sala.nome}</Card.Title>
+										<Card.Text className = "styleData">
 											{dataCriacao}
-								</Card.Text>
-                <Card.Text className = "styleBody">
-									{sala.descri}
-                </Card.Text>
+										</Card.Text>
+										<Card.Text className = "styleBody">
+											{sala.descri}
+										</Card.Text>
                 </Card.Body>
-            </Card>
+            	</Card>
             )
             
 				})
         return cards
-    }
+		}
+
+		slideNext = () => this.setState({ currentIndex: this.state.currentIndex + 1 })
+ 
+  	slidePrev = () => this.setState({ currentIndex: this.state.currentIndex - 1 })
 
 
-      render(){
-				const { salasAbertas, salasFechadas } = this.state;
-				const salas = [
-					{
-						nome: "Assunto 1",
-						cor: "#77D353"
-					},
-					{
-						nome: "Assunto 2",
-						cor: "#976DD0"
-					},
-					{
-						nome: "Assunto 3",
-						cor: "#FF9052"
-					},
-				]
-				return(
-						<div>
-							<Navb/>
-								<div>
-									<h1 className="styleText">Salas Abertas</h1>
-									<CardDeck className="styleDeckAberto">
-											{this.salasAbertas(salasAbertas)}
-									</CardDeck>
-								</div>
-								<div>
-								<h1 className="styleText">Salas Fechadas</h1>
-									<CardDeck className="styleDeckFechado">
-											{this.salasFechadas(salasFechadas)}
-									</CardDeck>
-								</div>
-						</div> 
-				)
-      }  
+		render(){
+			const { salasAbertas, salasFechadas, currentIndex } = this.state;
+			const salas = [
+				{
+					nome: "Assunto 1",
+					cor: "#77D353"
+				},
+				{
+					nome: "Assunto 2",
+					cor: "#976DD0"
+				},
+				{
+					nome: "Assunto 3",
+					cor: "#FF9052"
+				},
+			];
+			return(
+					<div>
+						<Navb/>
+							<div>
+								<h1 className="styleText">Salas Abertas</h1>
+								{(salasFechadas.length > 0)
+									? (
+										<Carrousel
+											salas={this.salasAbertas(salasFechadas)}
+										/>
+									) : null
+								}
+							</div>
+							<div>
+								<h1 className="styleText" style={{paddingTop: 0}}>Salas Fechadas</h1>
+								{(salasFechadas.length > 0)
+									? (
+										<Carrousel
+											salas={this.salasFechadas(salasFechadas)}
+										/>
+									) : null
+								}
+							</div>
+					</div> 
+			)
+		}
 
 }
 export default SalaView
