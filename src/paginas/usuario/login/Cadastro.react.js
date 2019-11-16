@@ -248,44 +248,39 @@ class Cadastro extends Component {
         <BgLogin/>
         <div>
             <Form className="FormCadastro">
-           
-            <OverlayTrigger placement="right" overlay={this.popoverEmail()}>
+              <OverlayTrigger placement="right" overlay={this.popoverEmail()}>
                 <Form.Group controlId="email">
-                {(checkEmail !== null )? this.emailCheck() : null}
-                    <Form.Control
-                        name="email" 
-                        type="text" 
-                        placeholder="Email" 
-                        onChange={this.handleChange}
-                      />   
-                  </Form.Group>
+                  {(checkEmail !== null )? this.emailCheck() : null}
+                  <Form.Control
+                    name="email" 
+                    type="text" 
+                    placeholder="Email" 
+                    onChange={this.handleChange}
+                  />   
+                </Form.Group>
               </OverlayTrigger>
-
               <OverlayTrigger placement="right" overlay={this.popoverNome()}>
-                  <Form.Group  controlId="usuario">
-
+                <Form.Group  controlId="usuario">
                   {(checkNome !== null )? this.nomeCheck() : null}
-                      <Form.Control 
-                          name="nome" 
-                          type="text" 
-                          placeholder="Nome"
-                          onChange={this.handleChange}
-                        />   
-                  </Form.Group>
-                </OverlayTrigger>
-
-                <OverlayTrigger placement="right"  overlay={this.popoverSenha()}>
-                  <Form.Group  controlId="senha">
-                  {(checkSenha !== null )? this.senhaCheck() : null}
-                      <Form.Control 
-                          name="senha" 
-                          type="password" 
-                          placeholder="Senha" 
-                          onChange={this.handleChange}
-                    />   
-                  </Form.Group>
-                </OverlayTrigger>
-
+                  <Form.Control 
+                    name="nome" 
+                    type="text" 
+                    placeholder="Nome"
+                    onChange={this.handleChange}
+                  />   
+                </Form.Group>
+              </OverlayTrigger>
+              <OverlayTrigger placement="right"  overlay={this.popoverSenha()}>
+                <Form.Group  controlId="senha">
+                {(checkSenha !== null )? this.senhaCheck() : null}
+                  <Form.Control 
+                    name="senha" 
+                    type="password" 
+                    placeholder="Senha" 
+                    onChange={this.handleChange}
+                  />  
+                </Form.Group>
+              </OverlayTrigger>
             </Form>
           <Button variant="flat" className="LoginBtn" onClick={() => this.cadastrar()}> Cadastrar </Button>
         </div>
