@@ -28,10 +28,21 @@ class CriarSala extends Component {
     const target = event.target;
     const name = target.name;
     const value = target.value;
-    console.log("entrei")
     this.setState({
       [name]: value,
     });
+  }
+
+  onHideScreen = (onHide) => {
+    this.setState({
+      nome: null,
+      descri: null,
+      messageNome: "Crie um nome para a sala",
+      messageDescri: "Insira uma descrição para sala",
+      checkNome: false,
+      checkDescri: false,
+    })
+    onHide();
   }
 
   cadastrar = async submitted => {
@@ -141,7 +152,7 @@ class CriarSala extends Component {
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
-        onHide={onHide}
+        onHide={() => this.onHideScreen(onHide)}
         className="modalForm"
       >
         <Modal.Header closeButton className="headerModal">
