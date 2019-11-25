@@ -31,15 +31,15 @@ const color = [
 
 
  class SalaView extends Component {
-    constructor() {
-			super();
-			document.body.style.overflowY = "auto";
-			document.body.style.overflowX = "hidden";
-			this.state = {
-				salasAbertas: [],
-				salasFechadas: [],
-				};
-    }
+	constructor() {
+		super();
+		document.body.style.overflowY = "auto";
+		document.body.style.overflowX = "hidden";
+		this.state = {
+			salasAbertas: [],
+			salasFechadas: [],
+			};
+	}
 	  
 	componentDidMount = async () => {
 		const {salas} = this.state;
@@ -64,54 +64,51 @@ const color = [
 
 
 	salasAbertas = (salas) => {
-			const cards = [];
+		const cards = [];
+		salas.forEach(sala => {
+			let dataCriacao = moment(sala.data).format("DD/MM/YYYY")
+			cards.push(
+				<Card className= "styleCard">
+					<Card.Header className = "styleCardHeader" style={{ backgroundColor: color[1].cor }}>
+						Assunto 1
+					</Card.Header>
+					<Card.Body className="styleCardBody">
+						<Card.Title className="styleTitle"> {sala.nome}</Card.Title>
+						<Card.Text className = "styleData">
+								{dataCriacao}
+						</Card.Text>
+						<Card.Text className = "styleBody">
+							{sala.descri}
+						</Card.Text>
+					</Card.Body>
+				</Card>
+			)
+		});
+		return cards
+	}
+
+	salasFechadas = (salas) => {
+		const cards = [];
 			salas.forEach(sala => {
 				let dataCriacao = moment(sala.data).format("DD/MM/YYYY")
 				cards.push(
-					// <div>
-						<Card className= "styleCard">
-							<Card.Header className = "styleCardHeader" style={{ backgroundColor: color[1].cor }}>
-								Assunto 1
+					<Card className= "styleCard">
+							<Card.Header className = "styleCardHeader" style={{ backgroundColor: "#77D353" }}>
+							Assunto 2
 							</Card.Header>
 							<Card.Body className="styleCardBody">
-								<Card.Title className="styleTitle"> {sala.nome}</Card.Title>
+								<Card.Title className="styleTitle">{sala.nome}</Card.Title>
 								<Card.Text className = "styleData">
-										{dataCriacao}
+									{dataCriacao}
 								</Card.Text>
 								<Card.Text className = "styleBody">
 									{sala.descri}
 								</Card.Text>
-							</Card.Body>
-						</Card>
-					// </div>
+						</Card.Body>
+					</Card>
 				)
-			});
-			return cards
-	}
-
-	salasFechadas = (salas) => {
-			const cards = [];
-				salas.forEach(sala => {
-					let dataCriacao = moment(sala.data).format("DD/MM/YYYY")
-					cards.push(
-						<Card className= "styleCard">
-								<Card.Header className = "styleCardHeader" style={{ backgroundColor: "#77D353" }}>
-								Assunto 2
-								</Card.Header>
-								<Card.Body className="styleCardBody">
-									<Card.Title className="styleTitle">{sala.nome}</Card.Title>
-									<Card.Text className = "styleData">
-										{dataCriacao}
-									</Card.Text>
-									<Card.Text className = "styleBody">
-										{sala.descri}
-									</Card.Text>
-							</Card.Body>
-						</Card>
-					)
-					
-			})
-			return cards
+		})
+		return cards
 	}
 
 	slideNext = () => this.setState({ currentIndex: this.state.currentIndex + 1 })
@@ -120,21 +117,7 @@ const color = [
 
 
 	render(){
-		const { salasAbertas, salasFechadas, currentIndex } = this.state;
-		const salas = [
-			{
-				nome: "Assunto 1",
-				cor: "#77D353"
-			},
-			{
-				nome: "Assunto 2",
-				cor: "#976DD0"
-			},
-			{
-				nome: "Assunto 3",
-				cor: "#FF9052"
-			},
-		];
+		const { salasAbertas, salasFechadas } = this.state;
 		return(
 			<div>
 				<Navb/>
