@@ -33,7 +33,7 @@ class CriarSala extends Component {
     const {nome, descri} = this.state;
 
     const usuario =  await localStorage.getItem("id");
-    let data =  moment().format("DD/MM/YYYY")
+    let data =  moment().format("YYYY-MM-DD")
 
     const values = {
       usuario: parseInt(usuario),
@@ -43,13 +43,15 @@ class CriarSala extends Component {
       aberta: 1,
     };
 
+    console.log(data)
+
     if(nome !== null && descri !== null){
       const response = await api.post("/sala/cadastrar", values).then(
       // onHide()
       window.location.reload()
     );
     } else {
-      console.log("entrei nessa budega")
+      console.log("oi")
     }
   };
 
