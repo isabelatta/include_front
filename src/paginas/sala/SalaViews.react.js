@@ -48,15 +48,14 @@ const color = [
 		  .get(`sala/listar/${id}` )
 		  .then(response => response.data)
 		  .then(results => {
-			if (results) {
-				const salasAbertas = results.filter((sala) => sala.aberta === 1);
-				const salasFechadas = results.filter((sala) => sala.aberta === 0);
-				this.setState({
-					salasAbertas,
-					salasFechadas,
-				});
-			}
-			// console.log(results)
+				if (results) {
+					const salasAbertas = results.filter((sala) => sala.aberta === 1);
+					const salasFechadas = results.filter((sala) => sala.aberta === 0);
+					this.setState({
+						salasAbertas,
+						salasFechadas,
+					});
+				}
 		  });
 
 		};
