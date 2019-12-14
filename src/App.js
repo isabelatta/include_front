@@ -11,6 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './paginas/usuario/login/Login.react'
 import Cadastro from './paginas/usuario/login/Cadastro.react'
 import SalaView from './paginas/sala/SalaViews.react'
+import CriarAtividade from './paginas/atividade/CriarAtividade.react'
 
 
 
@@ -22,6 +23,7 @@ function App() {
         <Route exact path='/' component={Login} />
         <Route exact path='/cadastro' component={Cadastro} />
         <Route exact path='/Home' component={SalaView} />
+        <Route exact path ='/criarAtividade' component={CriarAtividade}/>
         {/* <div>
           <Login/>
         </div> */}

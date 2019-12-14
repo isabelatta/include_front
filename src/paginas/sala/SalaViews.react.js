@@ -119,7 +119,7 @@ const color = [
 		const { salasAbertas, salasFechadas } = this.state;
 		return(
 			<div>
-				<Navb/>
+				<Navb principal={true}/>
 					<div>
 						<h1 className="styleText">Salas Abertas</h1>
 						{(salasAbertas.length > 0)

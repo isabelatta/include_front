@@ -6,6 +6,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
 import CriarSala from './CriarSala.react';
+import { IoMdArrowBack } from "react-icons/io";
 
 class Navb extends Component {
 	constructor() {
@@ -15,27 +16,50 @@ class Navb extends Component {
 		}    
 	}
 
+	goBack(){
+    this.props.history.goBack();
+	}
+
 	render(){
 		const prof = "Professor(a) " + localStorage.getItem("nome");
 		const { modalShow } = this.state;
+		const { nomePagina, principal } = this.props;
 
 		return(
 			<div className="divBorder">
 				<Navbar expand="lg" className="navBg">
-						<Navbar.Brand href="#home" className="navProf">{prof}</Navbar.Brand>
-						<Navbar.Toggle aria-controls="basic-navbar-nav" />
-						<Navbar.Collapse id="basic-navbar-nav">
+					{(principal)
+						? (			
+							<Navbar.Brand href="#home" className="navProf">{prof}</Navbar.Brand>
+						)
+						: (
+							<Navbar.Brand onClick={this.goBack} className="navProf">
+								<IoMdArrowBack style={{ fontSize: 30, color: '#CCC' }}/>
+							</Navbar.Brand>
+						)
+					}
+					{/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
+					{(principal)
+						? (			
+							<Navbar.Collapse id="basic-navbar-nav">
 								<Nav className="mr-auto">
-								<Button 
-									variant="link"
-									className="navCriarSala"
-									onClick={() => this.setState({ modalShow: !modalShow})}
-								>
-									Criar Sala
-								</Button>
-								<Nav.Link href="#link"></Nav.Link>
+									<Button 
+										variant="link"
+										className="navCriarSala"
+										onClick={() => this.setState({ modalShow: !modalShow})}
+									>
+										Criar Sala
+									</Button>
+									<Nav.Link href="#link"></Nav.Link>
 								</Nav>
-						</Navbar.Collapse>
+							</Navbar.Collapse>
+						)
+						: (
+							<Nav className="navTituloPage">
+								{nomePagina}
+							</Nav>
+						)
+					}
 				</Navbar>
 				<CriarSala
 					show={modalShow}

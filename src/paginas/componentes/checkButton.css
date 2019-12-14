@@ -1,0 +1,13 @@
+.checkButton {
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.iconCheckButton {
+  font-size: 30px;
+  float: right;
+}
+
+.textCheckButton {
+  font-weight: 600;
+}

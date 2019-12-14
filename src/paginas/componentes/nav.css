@@ -13,5 +13,34 @@
     color: #77d353 !important;
     font-weight: 500 !important;
     font-size: 15px;
-  }
+}
 
+.navTituloPage {
+    text-align: center;
+    font-size: 24px;
+    justify-content: center;
+    flex: 1;
+}
+
+.descriptionButtom {
+    padding: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background: #976DD0;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    color: #FFF;
+    align-self: center;
+}
+
+.buttonCheck {
+    background-color: #976DD0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding: 10px;
+}
+
+.buttonCheck .input-group-text {
+    background-color: #976DD0;
+    border-color: #976DD0;
+}
