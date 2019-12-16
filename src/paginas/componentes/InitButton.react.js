@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Button from 'react-bootstrap/Button'
+import Button from 'react-bootstrap/Button';
+import { FaCheck } from "react-icons/fa";
 
 
 class InitButton extends Component {
@@ -9,20 +10,33 @@ class InitButton extends Component {
       }
 
     divStyle = {
-        backgroundColor: '#77d353',
-        borderColor: '#77d353',
-        color: 'white',
-        fontFamily: 'Arial',
-        fontWeight: 'Bolder',
-
+      backgroundColor: '#77d353',
+      borderColor: '#77d353',
+      color: 'white',
+      fontFamily: 'Arial',
+      fontWeight: 'Bolder',
     };
+
+    iconStyle = {
+      fontSize: 25,
+      marginLeft: 20,
+    }
+
+    divSuperStyle = {
+      marginTop: 40,
+      display: 'flex',
+      flex: 1,
+      justifyContent: 'center',
+    }
 
 
    render(){
         return (
-          <div>
-            <Button style={this.divStyle} variant="primary" size="lg">Iniciar Atividade</Button>
-            <div></div>
+          <div style={this.divSuperStyle}>
+            <Button style={this.divStyle} variant="primary" size="lg">
+              Iniciar Atividade
+              <FaCheck style={this.iconStyle}/>
+            </Button>
           </div>
           
         );

@@ -9,5 +9,6 @@
 }
 
 .textCheckButton {
+  vertical-align: middle;
   font-weight: 600;
 }

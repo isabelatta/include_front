@@ -5,7 +5,7 @@ import './nav.css'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
-import CriarSala from './CriarSala.react';
+import CriarSala from '../sala/componentes/CriarSala.react';
 import { IoMdArrowBack } from "react-icons/io";
 
 class Navb extends Component {
@@ -14,10 +14,6 @@ class Navb extends Component {
 		this.state = {
 			modalShow: false,
 		}    
-	}
-
-	goBack(){
-    this.props.history.goBack();
 	}
 
 	render(){
@@ -30,12 +26,12 @@ class Navb extends Component {
 				<Navbar expand="lg" className="navBg">
 					{(principal)
 						? (			
-							<Navbar.Brand href="#home" className="navProf">{prof}</Navbar.Brand>
+							<Navbar.Brand href="/home" className="navProf">{prof}</Navbar.Brand>
 						)
 						: (
-							<Navbar.Brand onClick={this.goBack} className="navProf">
+							<Nav.Link href="/home" className="navProf">
 								<IoMdArrowBack style={{ fontSize: 30, color: '#CCC' }}/>
-							</Navbar.Brand>
+							</Nav.Link>
 						)
 					}
 					{/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}

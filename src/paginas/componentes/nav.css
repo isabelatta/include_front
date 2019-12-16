@@ -4,6 +4,7 @@
 }
 
 .navProf {
+    z-index: 2;
     color: #47525E !important;
     font-family: unset !important;
     font-size: 15px;
@@ -16,10 +17,15 @@
 }
 
 .navTituloPage {
+    font-family: unset;
+    z-index: 1;
+    width: 100%;
+    position: absolute;
     text-align: center;
     font-size: 24px;
     justify-content: center;
-    flex: 1;
+    font-weight: 600;
+    padding-right: 40px;
 }
 
 .descriptionButtom {

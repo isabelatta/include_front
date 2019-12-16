@@ -1,3 +1,7 @@
+body {
+  overflow-x: hidden;
+}
+
 .checkButtonGroup {
   display: flex;
   flex-direction: column;
@@ -27,7 +31,7 @@
   text-align: center;
   padding: 7px;
   color: #FFF;
-  margin: 10px;
+  margin-top: 10px;
 }
 
 .ajudaSecao{

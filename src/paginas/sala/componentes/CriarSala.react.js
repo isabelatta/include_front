@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import moment from "moment";
-import api from "../../uteis/api";
+import api from "../../../uteis/api";
 
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Popover from 'react-bootstrap/Popover'
+import {Redirect} from 'react-router-dom'
 
 import './modal.css'
 
@@ -41,6 +42,7 @@ class CriarSala extends Component {
       messageDescri: "Insira uma descrição para sala",
       checkNome: false,
       checkDescri: false,
+      salaId: null,
     })
     onHide();
   }
@@ -63,10 +65,16 @@ class CriarSala extends Component {
     await this.check()
 
     if(checkNome && checkDescri){
-        const response = await api.post("/sala/cadastrar", values).then(
-        // onHide()
-        window.location.reload()
-      );
+      // const response = await api.post("/sala/cadastrar", values).then(response => {
+      //   console.log(response)
+      // });
+      await api
+      .post(`/sala/cadastrar`, values)
+      .then(response => response.data)
+      .then(results => {
+        this.setState({salaId: results.id})
+      });
+      // console.log(response);
     } 
   };
 
@@ -140,57 +148,75 @@ class CriarSala extends Component {
     );
   }
 
+  renderRedirect = () => {
+    const {salaId} = this.state
+    console.log("teste")
+    if (salaId !== null) {
+      return (
+        <Redirect
+          to={{
+            pathname: "/criarAtividade",
+            state: { salaId }
+          }}
+        />
+      )
+    }
+  }
+
+  renderModal = (show, onHide) => (
+    <Modal
+      show={show}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+      onHide={() => this.onHideScreen(onHide)}
+      className="modalForm"
+    >
+      {this.renderRedirect}
+      <Modal.Header closeButton className="headerModal">
+        <Modal.Title id="contained-modal-title-vcenter">
+          Criar Sala
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body style={{ padding: 40 }}>
+        <OverlayTrigger placement="top" overlay={this.popoverNome()}> 
+            <Form.Group  controlId="formPlaintextLogin">
+              <Form.Control
+                className="nameInput"
+                placeholder="Nome da Sala"
+                // size="lg"
+                name="nome" 
+                type="text" 
+                onChange={this.handleChange}
+              />
+            </Form.Group>
+        </OverlayTrigger>
+        <OverlayTrigger placement="top" overlay={this.popoverDescri()}> 
+          <Form.Group controlId="exampleForm.ControlTextarea1">
+            <Form.Control 
+              placeholder="Descrição da Sala"
+              as="textarea" 
+              rows="10" 
+              name="descri" 
+              onChange={this.handleChange} 
+            />
+          </Form.Group>
+        </OverlayTrigger>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button className="btnModal" onClick={this.cadastrar}> Criar Sala </Button>
+      </Modal.Footer>
+    </Modal>
+  )
+
 
 
 
 	render(){
     const { show, onHide } = this.props;
-
-		return(
-      <Modal
-        show={show}
-        size="lg"
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-        onHide={() => this.onHideScreen(onHide)}
-        className="modalForm"
-      >
-        <Modal.Header closeButton className="headerModal">
-          <Modal.Title id="contained-modal-title-vcenter">
-            Criar Sala
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body style={{ padding: 40 }}>
-          <OverlayTrigger placement="top" overlay={this.popoverNome()}> 
-              <Form.Group  controlId="formPlaintextLogin">
-                <Form.Control
-                  className="nameInput"
-                  placeholder="Nome da Sala"
-                  // size="lg"
-                  name="nome" 
-                  type="text" 
-                  onChange={this.handleChange}
-                />
-              </Form.Group>
-          </OverlayTrigger>
-          <OverlayTrigger placement="top" overlay={this.popoverDescri()}> 
-            <Form.Group controlId="exampleForm.ControlTextarea1">
-              <Form.Control 
-                placeholder="Descrição da Sala"
-                as="textarea" 
-                rows="10" 
-                name="descri" 
-                onChange={this.handleChange} 
-              />
-            </Form.Group>
-          </OverlayTrigger>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button className="btnModal" onClick={this.cadastrar}> Criar Sala </Button>
-        </Modal.Footer>
-      </Modal>
-				
-		)
+    const { salaId } = this.state;
+    if (salaId) return this.renderRedirect()
+    else return this.renderModal(show, onHide)
 	}
 
 }

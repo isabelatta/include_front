@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import 'react-alice-carousel/lib/alice-carousel.css';
+import api from "../../uteis/api";
 
 import './atividade.css';
 
@@ -8,6 +9,8 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import Navb from '../componentes/Nav.react';
 import CheckButtom from '../componentes/CheckButtom.react';
 import BotaoAtividade from '../componentes/BotaoAtividade.react';
+import InitButton from '../componentes/InitButton.react';
+
 
 
 const coresEntradasSaidas = [
@@ -21,33 +24,111 @@ class CriarAtividade extends Component {
 	constructor() {
     super();
     this.state = {
+      assuntos: [],
+      atividades: [],
       assunto: null,
       atividade: null,
+      entradaSaidaIds: [],
+      entradas: [],
+      saidas: [],
+      salaId: null,
     }
 	}
 	  
-	componentDidMount = () => {
-
+	componentDidMount = async () => {
+    const { salaId } = this.props.location.state;
+    this.setState({
+      salaId
+    })
+    await api
+		  .get(`atividade/listarAssuntos` )
+		  .then(response => response.data)
+		  .then(results => {
+				if (results) {
+          console.log(results)
+					this.setState({
+						assuntos: results,
+					});
+				}
+		  });
   };
   
-  mudaAssunto = (valor) => {
-    console.log(valor);
-    this.setState({ assunto: valor })
+  mudaAssunto = async (valor) => {
+    this.setState({
+      assunto: valor,
+      atividade: null,
+    });
+    await api
+    .get(`atividade/listarAtividades/${valor}` )
+    .then(response => response.data)
+    .then(results => {
+      if (results) {
+        console.log(results)
+        this.setState({
+          atividades: results,
+        });
+      }
+    });
   }
 
-  mudaAtividade = (valor) => this.setState({ atividade: valor})
+  mudaAtividade = async (valor) => {
+    this.setState({ atividade: valor})
+
+    await api
+    .get(`atividade/listarEntradasSaidas/${valor}` )
+    .then(response => response.data)
+    .then(results => {
+      if (results) {
+        console.log(results)
+        const entradas = []
+        const saidas = []
+        const entradaSaidaIds = []
+        if(results.length > 0) {
+          results.forEach((r) => {
+            entradas.push({
+              id: r.id,
+              descri: r.entrada,
+            });
+            saidas.push({
+              id: r.id,
+              descri: r.saida,
+            });
+            entradaSaidaIds.push(r.id);
+          })
+        }
+        this.setState({
+          entradas,
+          saidas,
+          entradaSaidaIds
+        });
+      }
+    });
+
+  }
+
+  mudaEntradaSaida = (valor) => {
+    const { entradaSaidaIds } = this.state;
+    if(entradaSaidaIds.includes(valor)){
+      const index = entradaSaidaIds.indexOf(valor);
+      entradaSaidaIds.splice(index, 1)
+    } else {
+      entradaSaidaIds.push(valor)
+    }
+
+    this.setState({ entradaSaidaIds })
+  }
 
   gerarAssuntos = (assuntos) => {
     const { assunto: assuntoState } = this.state;
     const assuntosComponents = [];
     assuntos.forEach((assunto) => {
       let checked = false;
-      if (assunto.valor === assuntoState) checked = true;
+      if (assunto.id === assuntoState) checked = true;
       assuntosComponents.push(
         <CheckButtom
           key= {assunto.id}
-          descricao={assunto.descricao}
-          valor={assunto.valor}
+          descricao={assunto.descri}
+          valor={assunto.id}
           cor={assunto.cor}
           checked={checked}
           funcao={this.mudaAssunto}
@@ -58,31 +139,42 @@ class CriarAtividade extends Component {
   }
 
   gerarEntradasSaidas = (entradasSaidas) => {
-    const { atividade } = this.state;
+    const { atividade, entradaSaidaIds } = this.state;
     const entradasSaidasComponents = [];
     let cor = 0;
     if (atividade) {
-      entradasSaidas.forEach((eS) => {
+      if(entradasSaidas.length > 0){
+        entradasSaidas.forEach((eS) => {
+          let corBotao = '#BEBEBE';
+          if(entradaSaidaIds.includes(eS.id)) corBotao = coresEntradasSaidas[cor];
+          entradasSaidasComponents.push(
+            <Button
+              className="checkButton"
+              onClick={() => this.mudaEntradaSaida(eS.id)}
+              style={{
+                backgroundColor: corBotao,
+                borderColor: corBotao,
+              }}
+            >
+              {eS.descri}
+            </Button>
+          )
+          cor++;
+          if (cor === 3) cor = 0;
+        });
+      } else {
         entradasSaidasComponents.push(
-          <div
-            className="listEntradasSaidas"
-            style={{
-              backgroundColor: coresEntradasSaidas[cor],
-              borderColor: coresEntradasSaidas[cor],
-            }}
-          >
-            {eS.descricao}
-          </div>
+          <p className="ajudaSecao">
+            Não possuimos entradas e saídas relacionadas a essa atividade por enquanto,
+            selecione outra atividade para continuar.
+          </p>
         )
-        cor++;
-        if (cor === 3) cor = 0;
-      });
+      }
     } else {
       entradasSaidasComponents.push(
         <p className="ajudaSecao"> Necessário selecionar uma atividade</p>
       )
     }
-
     return entradasSaidasComponents;
   }
 
@@ -91,19 +183,28 @@ class CriarAtividade extends Component {
     const { atividade: atividadeState, assunto } = this.state;
     const atividadesComponents = [];
     if (assunto) {
-      atividades.forEach((atividade) => {
-        let checked = false;
-        if (atividade.valor === atividadeState) checked = true;
+      if(atividades.length > 0) {
+        atividades.forEach((atividade) => {
+          let checked = false;
+          if (atividade.id === atividadeState) checked = true;
+          atividadesComponents.push(
+            <BotaoAtividade
+              key= {atividade.id}
+              descricao={atividade.titulo}
+              valor={atividade.id}
+              checked={checked}
+              funcao={this.mudaAtividade}
+            />
+          )
+        });
+      } else {
         atividadesComponents.push(
-          <BotaoAtividade
-            key= {atividade.id}
-            descricao={atividade.descricao}
-            valor={atividade.valor}
-            checked={checked}
-            funcao={this.mudaAtividade}
-          />
+          <p className="ajudaSecao">
+            Não possuimos atividades relacionadas a esse assunto por enquanto,
+            selecione outro assunto para continuar.
+          </p>
         )
-      });
+      }
     } else {
       atividadesComponents.push(
         <p className="ajudaSecao"> Necessário selecionar um assunto</p>
@@ -112,12 +213,12 @@ class CriarAtividade extends Component {
     return atividadesComponents;
   }
 
-  gerarDetalhesAtividade = (entradas, saidas) => (
+  gerarDetalhesAtividade = (entradas, saidas, descricao) => (
     <div>
       <div className="secaoAtividade">
         <h5 className="tituloSecao">Descrição da atividade:</h5>
         <p style={{ color: "#47525E" }}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit . Mauris consectetur a magna quis sagittis. Quisque vitae viverra ax + b = 0 augue, ut pulvinar nisl. Donec nec urna auctor, mollis orci sed, consequat velit
+          {descricao}
         </p>
       </div>
       <div className="secaoAtividade">
@@ -132,79 +233,32 @@ class CriarAtividade extends Component {
           {this.gerarEntradasSaidas(saidas)}
         </div>
       </div>
+      <InitButton/>
     </div>
   )
 
 
 	render(){
-    const { atividade } = this.state;
-    const assuntos = [
-      {
-        id: 1,
-        descricao: 'Equacao de 1 grau',
-        valor: 'Equacao de 1 grau',
-        cor: "#976DD0",
-      },
-      {
-        id: 2,
-        descricao: 'Equacao de 2 grau',
-        valor: 'Equacao de 2 grau',
-        cor: "#F95F62",
-      },{
-        id: 3,
-        descricao: 'Equacao de 3 grau',
-        valor: 'Equacao de 3 grau',
-        cor: "#00A6FF",
-      }
-    ];
+    const { 
+      atividade,
+      assuntos,
+      atividades,
+      entradas,
+      saidas
+    } = this.state;
 
-    const atividades = [
-      {
-        id: 1,
-        descricao: "ax + b = 0",
-        valor: "ax + b = 0",
-      },
-      {
-        id: 1,
-        descricao: "a2x + b = 0",
-        valor: "a2x + b = 0",
-      },
-    ];
+    let descricaoAtividade = 'Atividade sem descrição';
 
-    const entradas = [
-      {
-        id: 1,
-        descricao: 'a = 5; b = 10',
-      },
-      {
-        id: 2,
-        descricao: 'a = y; b = y',
-      },
-      {
-        id: 3,
-        descricao: 'a = z; b = z',
-      },
-    ];
-
-    const saidas = [
-      {
-        id: 1,
-        descricao: 'x = -2',
-      },
-      {
-        id: 2,
-        descricao: 'x = k',
-      },
-      {
-        id: 3,
-        descricao: 'x = w',
-      }
-    ]
+    if (atividade) {
+      descricaoAtividade = atividades.filter((at) => {
+        return at.id === atividade
+      })[0].descri
+    }
 
 		return(
 			<div>
 				<Navb nomePagina='Criar Atividade' principal={false}/>
-        <Container style={{ marginTop: 50 }}>
+        <Container style={{ marginTop: 30 }}>
           <Row>
             <Col>
               <div className="secaoAtividade">
@@ -222,7 +276,7 @@ class CriarAtividade extends Component {
             </Col>
             <Col className="segundaParte">
               {(atividade)
-               ? this.gerarDetalhesAtividade(entradas, saidas)
+               ? this.gerarDetalhesAtividade(entradas, saidas, descricaoAtividade)
                : null
               }
             </Col>
