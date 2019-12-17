@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import 'react-alice-carousel/lib/alice-carousel.css';
 import api from "../../uteis/api";
+import sweetAlertWarn from '../../uteis/sweetAlert';
 
 import './atividade.css';
 
@@ -54,55 +55,80 @@ class CriarAtividade extends Component {
   };
   
   mudaAssunto = async (valor) => {
-    this.setState({
-      assunto: valor,
-      atividade: null,
-    });
-    await api
-    .get(`atividade/listarAtividades/${valor}` )
-    .then(response => response.data)
-    .then(results => {
-      if (results) {
-        console.log(results)
-        this.setState({
-          atividades: results,
-        });
-      }
-    });
+    const {entradaSaidaIds} = this.state;
+    
+    let checkClick = true;
+    if (entradaSaidaIds.length > 0) {
+      checkClick = await sweetAlertWarn(
+        "Deseja realizar esta ação?",
+        "Ao continuar todas as modificações da atividade serão perdidas"
+      );
+    }
+
+    if (checkClick) {
+      this.setState({
+        assunto: valor,
+        atividade: null,
+        entradaSaidaIds: [],
+      });
+
+      await api
+      .get(`atividade/listarAtividades/${valor}` )
+      .then(response => response.data)
+      .then(results => {
+        if (results) {
+          console.log(results)
+          this.setState({
+            atividades: results,
+          });
+        }
+      });
+    }  
   }
 
   mudaAtividade = async (valor) => {
-    this.setState({ atividade: valor})
+    const { entradaSaidaIds } = this.state;
+    let checkClick = true;
+    if (entradaSaidaIds.length > 0) {
+      checkClick = await sweetAlertWarn(
+        "Deseja realizar esta ação?",
+        "Ao continuar todas as modificações da atividade serão perdidas"
+      );
+    }
 
-    await api
-    .get(`atividade/listarEntradasSaidas/${valor}` )
-    .then(response => response.data)
-    .then(results => {
-      if (results) {
-        console.log(results)
-        const entradas = []
-        const saidas = []
-        const entradaSaidaIds = []
-        if(results.length > 0) {
-          results.forEach((r) => {
-            entradas.push({
-              id: r.id,
-              descri: r.entrada,
-            });
-            saidas.push({
-              id: r.id,
-              descri: r.saida,
-            });
-            entradaSaidaIds.push(r.id);
-          })
+    if (checkClick) {
+      this.setState({ atividade: valor });
+
+      await api
+      .get(`atividade/listarEntradasSaidas/${valor}` )
+      .then(response => response.data)
+      .then(results => {
+        if (results) {
+          console.log(results)
+          const entradas = []
+          const saidas = []
+          const entradaSaidaIds = []
+          if(results.length > 0) {
+            results.forEach((r) => {
+              entradas.push({
+                id: r.id,
+                descri: r.entrada,
+              });
+              saidas.push({
+                id: r.id,
+                descri: r.saida,
+              });
+              entradaSaidaIds.push(r.id);
+            })
+          }
+          this.setState({
+            entradas,
+            saidas,
+            entradaSaidaIds
+          });
         }
-        this.setState({
-          entradas,
-          saidas,
-          entradaSaidaIds
-        });
-      }
-    });
+      });
+    }
 
   }
 
@@ -213,6 +239,25 @@ class CriarAtividade extends Component {
     return atividadesComponents;
   }
 
+  iniciarAtividade = async () => {
+    const {atividade, entradaSaidaIds, salaId} = this.state;
+
+
+    const values = {
+      atividade,
+      entradaSaidaIds,
+      salaId
+    };
+
+    await api
+    .post(`/atividade/cadastrar`, values)
+    .then(response => response.data)
+    .then(results => {
+    });
+
+    console.log(values)
+  }
+
   gerarDetalhesAtividade = (entradas, saidas, descricao) => (
     <div>
       <div className="secaoAtividade">
@@ -220,6 +265,7 @@ class CriarAtividade extends Component {
         <p style={{ color: "#47525E" }}>
           {descricao}
         </p>
+        <Button variant="outline-success">Adicionar entradas e saídas</Button>
       </div>
       <div className="secaoAtividade">
         <h5 className="tituloSecao">Entradas:</h5>
@@ -233,10 +279,9 @@ class CriarAtividade extends Component {
           {this.gerarEntradasSaidas(saidas)}
         </div>
       </div>
-      <InitButton/>
+      <InitButton funcao={this.iniciarAtividade}/>
     </div>
   )
-
 
 	render(){
     const { 

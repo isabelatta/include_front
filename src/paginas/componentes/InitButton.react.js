@@ -5,42 +5,48 @@ import { FaCheck } from "react-icons/fa";
 
 class InitButton extends Component {
 
-    constructor() {
-        super();
-      }
+  constructor() {
+    super();
+  }
 
-    divStyle = {
-      backgroundColor: '#77d353',
-      borderColor: '#77d353',
-      color: 'white',
-      fontFamily: 'Arial',
-      fontWeight: 'Bolder',
-    };
+  divStyle = {
+    backgroundColor: '#77d353',
+    borderColor: '#77d353',
+    color: 'white',
+    fontFamily: 'Arial',
+    fontWeight: 'Bolder',
+  };
 
-    iconStyle = {
-      fontSize: 25,
-      marginLeft: 20,
-    }
+  iconStyle = {
+    fontSize: 25,
+    marginLeft: 20,
+  }
 
-    divSuperStyle = {
-      marginTop: 40,
-      display: 'flex',
-      flex: 1,
-      justifyContent: 'center',
-    }
+  divSuperStyle = {
+    marginTop: 40,
+    display: 'flex',
+    flex: 1,
+    justifyContent: 'center',
+  }
 
 
-   render(){
-        return (
-          <div style={this.divSuperStyle}>
-            <Button style={this.divStyle} variant="primary" size="lg">
-              Iniciar Atividade
-              <FaCheck style={this.iconStyle}/>
-            </Button>
-          </div>
-          
-        );
-      }
+  render(){
+    const { funcao } = this.props;
+    return (
+      <div style={this.divSuperStyle}>
+        <Button
+          style={this.divStyle}
+          variant="primary"
+          size="lg"
+          onClick={funcao}
+        >
+          Iniciar Atividade
+          <FaCheck style={this.iconStyle}/>
+        </Button>
+      </div>
+      
+    );
+  }
 }
 
 export default InitButton
