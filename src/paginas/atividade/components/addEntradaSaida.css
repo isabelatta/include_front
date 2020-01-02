@@ -1,0 +1,39 @@
+.divEntSaida{
+  padding: 50px;
+}
+
+.divEntSaida h3{
+  font-size: 25px;
+  margin-bottom: 40px;
+  color: #5A6978;
+  text-align: center;
+}
+
+.divIconEntSaida {
+  text-align: center;
+  font-size: 25px;
+  color: #969FAA;
+}
+
+.modalEntrSaid .modal-dialog {
+  max-width: 600px;
+}
+
+.divEntSaida .buttonAdd {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.divEntSaida .buttonAdd button {
+  background-color: #77d353;
+  border-color: #77d353;
+  font-size: 20px;
+}
+
+.divModelEntSaid {
+  padding-left: 5px;
+}
+
+.divModelEntSaid span {
+  font-size: 12px;
+}

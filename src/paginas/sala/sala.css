@@ -102,3 +102,18 @@
     margin-left: 3%;
     margin-right: 3%;
 }
+
+.divSemSalas{
+    padding: 40px;
+    text-align: center;
+    color: #CCC;
+    font-family: unset;
+    font-weight: 600;
+}
+
+.divSemSalas p{
+    color: #9e9e9e
+}
+.divSemSalas p b{
+    color: #77d353
+}

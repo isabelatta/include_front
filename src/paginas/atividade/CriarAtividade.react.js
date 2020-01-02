@@ -11,6 +11,7 @@ import Navb from '../componentes/Nav.react';
 import CheckButtom from '../componentes/CheckButtom.react';
 import BotaoAtividade from '../componentes/BotaoAtividade.react';
 import InitButton from '../componentes/InitButton.react';
+import AddEntradasSaidas from './components/AddEntradasSaidas.react';
 
 
 
@@ -32,7 +33,10 @@ class CriarAtividade extends Component {
       entradaSaidaIds: [],
       entradas: [],
       saidas: [],
+      entradasNovas: [],
+      saidasNovas: [],
       salaId: null,
+      modalShow: false,
     }
 	}
 	  
@@ -258,30 +262,68 @@ class CriarAtividade extends Component {
     console.log(values)
   }
 
-  gerarDetalhesAtividade = (entradas, saidas, descricao) => (
+  gerarDetalhesAtividade = (entradas, saidas, descricao, modalShow) => (
     <div>
       <div className="secaoAtividade">
         <h5 className="tituloSecao">Descrição da atividade:</h5>
         <p style={{ color: "#47525E" }}>
           {descricao}
         </p>
-        <Button variant="outline-success">Adicionar entradas e saídas</Button>
+        <Button
+          variant="outline-success"
+          onClick={() => this.setState({ modalShow: !modalShow})}
+        >
+          Adicionar entradas e saídas
+        </Button>
       </div>
-      <div className="secaoAtividade">
-        <h5 className="tituloSecao">Entradas:</h5>
-        <div className="checkButtonGroup">
-          {this.gerarEntradasSaidas(entradas)}
+      <div className="scrollSecaoAtividade">
+        <div className="secaoAtividade">
+          <h5 className="tituloSecao">Entradas:</h5>
+          <div className="checkButtonGroup">
+            {this.gerarEntradasSaidas(entradas)}
+          </div>
         </div>
-      </div>
-      <div className="secaoAtividade">
-        <h5 className="tituloSecao">Saidas:</h5>
-        <div className="checkButtonGroup">
-          {this.gerarEntradasSaidas(saidas)}
+        <div className="secaoAtividade">
+          <h5 className="tituloSecao">Saidas:</h5>
+          <div className="checkButtonGroup">
+            {this.gerarEntradasSaidas(saidas)}
+          </div>
         </div>
       </div>
       <InitButton funcao={this.iniciarAtividade}/>
     </div>
-  )
+  );
+
+  adicionarEntraSaid = (entrada, saida) => {
+    const {
+      entradas,
+      saidas,
+      entradasNovas,
+      saidasNovas,
+    } = this.state;
+    console.log(entradas);
+    console.log(saidas);
+    const id = entradas[entradas.length - 1].id;
+    const entradaObj = {
+      id: id + 1,
+      descri: entrada
+    }
+    const saidaObj = {
+      id: id + 1,
+      descri: saida
+    }
+    entradas.push(entradaObj);
+    saidas.push(saidaObj);
+    entradasNovas.push(entrada);
+    saidasNovas.push(saida);
+    this.setState({
+      modalShow: false,
+      entradas,
+      saidas,
+      entradasNovas,
+      saidasNovas,
+    })
+  }
 
 	render(){
     const { 
@@ -289,7 +331,8 @@ class CriarAtividade extends Component {
       assuntos,
       atividades,
       entradas,
-      saidas
+      saidas,
+      modalShow
     } = this.state;
 
     let descricaoAtividade = 'Atividade sem descrição';
@@ -321,12 +364,19 @@ class CriarAtividade extends Component {
             </Col>
             <Col className="segundaParte">
               {(atividade)
-               ? this.gerarDetalhesAtividade(entradas, saidas, descricaoAtividade)
+               ? this.gerarDetalhesAtividade(entradas, saidas, descricaoAtividade, modalShow)
                : null
               }
             </Col>
           </Row>
         </Container>
+        <AddEntradasSaidas
+					show={modalShow}
+          onHide={() => this.setState({ modalShow: !modalShow})}
+          atividade={atividade}
+          atividades={atividades}
+          submit={this.adicionarEntraSaid}
+        />
 			</div> 
 		)
 	}

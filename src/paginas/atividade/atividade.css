@@ -20,7 +20,12 @@ body {
 }
 
 .secaoAtividade{
-  margin-bottom: 30px;
+  margin-bottom: 10px;
+}
+
+.scrollSecaoAtividade {
+  max-height: 440px;
+  overflow: auto;
 }
 
 .listEntradasSaidas{

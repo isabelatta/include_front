@@ -51,6 +51,7 @@ const color = [
 				if (results) {
 					const salasAbertas = results.filter((sala) => sala.aberta === 1);
 					const salasFechadas = results.filter((sala) => sala.aberta === 0);
+					console.log(salasAbertas)
 					this.setState({
 						salasAbertas,
 						salasFechadas,
@@ -61,15 +62,15 @@ const color = [
 		};
 	
 
-
+º
 	salasAbertas = (salas) => {
 		const cards = [];
 		salas.forEach(sala => {
 			let dataCriacao = moment(sala.data).format("DD/MM/YYYY")
 			cards.push(
 				<Card className= "styleCard">
-					<Card.Header className = "styleCardHeader" style={{ backgroundColor: color[1].cor }}>
-						Assunto 1
+					<Card.Header className = "styleCardHeader" style={{ backgroundColor: sala.cor }}>
+						{sala.assunDesc}
 					</Card.Header>
 					<Card.Body className="styleCardBody">
 						<Card.Title className="styleTitle"> {sala.nome}</Card.Title>
@@ -93,7 +94,7 @@ const color = [
 				cards.push(
 					<Card className= "styleCard">
 							<Card.Header className = "styleCardHeader" style={{ backgroundColor: "#77D353" }}>
-							Assunto 2
+								{sala.assunDesc}
 							</Card.Header>
 							<Card.Body className="styleCardBody">
 								<Card.Title className="styleTitle">{sala.nome}</Card.Title>
@@ -127,7 +128,19 @@ const color = [
 								<Carrousel
 									salas={this.salasAbertas(salasAbertas)}
 								/>
-							) : null
+							) : (
+								<div className="divSemSalas">
+									<h4>
+										Sem salas abertas no momento
+									</h4>
+									<p>
+										Clique em
+										<b> Criar Sala </b>
+										no topo da página para poder criar uma nova
+										sala.
+									</p>
+								</div>
+							)
 						}
 					</div>
 					<div>
@@ -137,7 +150,13 @@ const color = [
 								<Carrousel
 									salas={this.salasFechadas(salasFechadas)}
 								/>
-							) : null
+							) : (
+								<div className="divSemSalas">
+									<h4>
+										Sem salas fechadas no momento
+									</h4>
+								</div>
+							)
 						}
 					</div>
 			</div> 
