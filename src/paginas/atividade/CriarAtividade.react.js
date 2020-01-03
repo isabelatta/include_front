@@ -55,7 +55,15 @@ class CriarAtividade extends Component {
 						assuntos: results,
 					});
 				}
-		  });
+      });
+      
+    window.onbeforeunload = function(res) {
+      return "";
+    }.bind(this);
+    window.onunload = function(){
+      const { salaId } = this.state;
+      api.get(`atividade/desfazerAtividade/${salaId}`);
+    };
   };
   
   mudaAssunto = async (valor) => {
@@ -91,7 +99,7 @@ class CriarAtividade extends Component {
   }
 
   mudaAtividade = async (valor) => {
-    const { entradaSaidaIds } = this.state;
+    const { entradaSaidaIds, salaId } = this.state;
     let checkClick = true;
     if (entradaSaidaIds.length > 0) {
       checkClick = await sweetAlertWarn(
@@ -103,40 +111,46 @@ class CriarAtividade extends Component {
     if (checkClick) {
       this.setState({ atividade: valor });
 
-      await api
-      .get(`atividade/listarEntradasSaidas/${valor}` )
-      .then(response => response.data)
-      .then(results => {
-        if (results) {
-          console.log(results)
-          const entradas = []
-          const saidas = []
-          const entradaSaidaIds = []
-          if(results.length > 0) {
-            results.forEach((r) => {
-              entradas.push({
-                id: r.id,
-                descri: r.entrada,
-              });
-              saidas.push({
-                id: r.id,
-                descri: r.saida,
-              });
-              entradaSaidaIds.push(r.id);
-            })
-          }
-          this.setState({
-            entradas,
-            saidas,
-            entradaSaidaIds
-          });
-        }
-      });
+      await this.listarEntradasSaidas(valor, salaId);
     }
 
   }
 
+  listarEntradasSaidas = async (atividade, sala) => {
+    console.log("entrou");
+    await api
+    .get(`atividade/listarEntradasSaidas/${atividade}/${sala}` )
+    .then(response => response.data)
+    .then(results => {
+      if (results) {
+        console.log(results)
+        const entradas = []
+        const saidas = []
+        const entradaSaidaIds = []
+        if(results.length > 0) {
+          results.forEach((r) => {
+            entradas.push({
+              id: r.id,
+              descri: r.entrada,
+            });
+            saidas.push({
+              id: r.id,
+              descri: r.saida,
+            });
+            entradaSaidaIds.push(r.id);
+          })
+        }
+        this.setState({
+          entradas,
+          saidas,
+          entradaSaidaIds
+        });
+      }
+    });
+  }
+
   mudaEntradaSaida = (valor) => {
+    console.log(valor);
     const { entradaSaidaIds } = this.state;
     if(entradaSaidaIds.includes(valor)){
       const index = entradaSaidaIds.indexOf(valor);
@@ -146,6 +160,47 @@ class CriarAtividade extends Component {
     }
 
     this.setState({ entradaSaidaIds })
+  }
+
+  adicionarEntraSaid = async (entrada, saida) => {
+    const {
+      atividade,
+      salaId,
+      entradas,
+      saidas,
+      entradaSaidaIds,
+    } = this.state;
+    const values = {
+      entrada,
+      saida,
+      atividade,
+      sala: salaId
+    }
+    this.setState({
+      modalShow: false,
+    })
+
+    await api
+    .post(`/atividade/cadastrarEntradaSaida`, values)
+    .then(response => response.data)
+    .then(response => {
+        const { id, entrada, saida } = response; 
+        entradaSaidaIds.push(id)
+        entradas.push({
+          id,
+          descri: entrada,
+        });
+        saidas.push({
+          id,
+          descri: saida,
+        });
+        this.setState({
+          entradas,
+          saidas,
+          entradaSaidaIds
+        });
+    });
+
   }
 
   gerarAssuntos = (assuntos) => {
@@ -293,37 +348,6 @@ class CriarAtividade extends Component {
       <InitButton funcao={this.iniciarAtividade}/>
     </div>
   );
-
-  adicionarEntraSaid = (entrada, saida) => {
-    const {
-      entradas,
-      saidas,
-      entradasNovas,
-      saidasNovas,
-    } = this.state;
-    console.log(entradas);
-    console.log(saidas);
-    const id = entradas[entradas.length - 1].id;
-    const entradaObj = {
-      id: id + 1,
-      descri: entrada
-    }
-    const saidaObj = {
-      id: id + 1,
-      descri: saida
-    }
-    entradas.push(entradaObj);
-    saidas.push(saidaObj);
-    entradasNovas.push(entrada);
-    saidasNovas.push(saida);
-    this.setState({
-      modalShow: false,
-      entradas,
-      saidas,
-      entradasNovas,
-      saidasNovas,
-    })
-  }
 
 	render(){
     const { 
