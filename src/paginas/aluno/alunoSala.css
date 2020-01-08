@@ -1,0 +1,16 @@
+.tituloAtividade {
+  color: #a3b1be;
+}
+
+.descriAtividade {
+  margin-top: 5%;
+  font-family: unset;
+  font-weight: 300;
+  font-size: larger;
+  padding-right: 6%;
+}
+
+.primeiraRow {
+  margin: 4%;
+  margin-top: 40;
+}

@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form';
 
 import {BrowserRouter as Router, Route, Link, Redirect} from 'react-router-dom'
 
-import BgLogin from './componentes/BgLogin.react';
+import BgLogin from '../../componentes/BgLogin.react';
 import Cadastro from './Cadastro.react'
 
 import './login.css';

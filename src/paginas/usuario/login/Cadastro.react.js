@@ -10,7 +10,7 @@ import Popover from 'react-bootstrap/Popover'
 import { IoMdClose } from "react-icons/io";
 import { IoMdCheckmark } from "react-icons/io";
 
-import BgLogin from './componentes/BgLogin.react';
+import BgLogin from '../../componentes/BgLogin.react';
 
 class Cadastro extends Component {
 

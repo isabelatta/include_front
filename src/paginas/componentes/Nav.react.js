@@ -16,46 +16,67 @@ class Navb extends Component {
 		}    
 	}
 
-	render(){
+	renderPrimeiroElemento = () => {
 		const prof = "Professor(a) " + localStorage.getItem("nome");
-		const { modalShow } = this.state;
+		const {principal, aluno, equipe} = this.props;
+
+		if (principal) {
+			return(
+				<Navbar.Brand href="/home" className="navProf">
+					{prof}
+				</Navbar.Brand>
+			)
+		}
+		else if (aluno) {
+			return (
+				<Nav className="mr-auto" style={{ padding: 5 }}>
+					{equipe}
+				</Nav>
+			)
+		}
+		return(
+			<Nav.Link href="/home" className="navProf">
+				<IoMdArrowBack style={{ fontSize: 30, color: '#CCC' }}/>
+			</Nav.Link>
+		)
+	}
+
+	renderSegundoElemento= () => {
 		const { nomePagina, principal } = this.props;
+		const { modalShow } = this.state;
+		if ( principal ) {
+			return (
+				<Navbar.Collapse id="basic-navbar-nav">
+					<Nav className="mr-auto">
+						<Button 
+							variant="link"
+							className="navCriarSala"
+							onClick={() => this.setState({ modalShow: !modalShow})}
+						>
+							Criar Sala
+						</Button>
+						<Nav.Link href="#link"></Nav.Link>
+					</Nav>
+				</Navbar.Collapse>
+			)
+		}
+		return (
+			<Nav className="navTituloPage">
+				{nomePagina}
+			</Nav>
+		)
+	}
+
+	render(){
+	
+		const { modalShow } = this.state;
+		
 
 		return(
 			<div className="divBorder">
 				<Navbar expand="lg" className="navBg">
-					{(principal)
-						? (			
-							<Navbar.Brand href="/home" className="navProf">{prof}</Navbar.Brand>
-						)
-						: (
-							<Nav.Link href="/home" className="navProf">
-								<IoMdArrowBack style={{ fontSize: 30, color: '#CCC' }}/>
-							</Nav.Link>
-						)
-					}
-					{/* <Navbar.Toggle aria-controls="basic-navbar-nav" /> */}
-					{(principal)
-						? (			
-							<Navbar.Collapse id="basic-navbar-nav">
-								<Nav className="mr-auto">
-									<Button 
-										variant="link"
-										className="navCriarSala"
-										onClick={() => this.setState({ modalShow: !modalShow})}
-									>
-										Criar Sala
-									</Button>
-									<Nav.Link href="#link"></Nav.Link>
-								</Nav>
-							</Navbar.Collapse>
-						)
-						: (
-							<Nav className="navTituloPage">
-								{nomePagina}
-							</Nav>
-						)
-					}
+					{this.renderPrimeiroElemento()}
+					{this.renderSegundoElemento()}
 				</Navbar>
 				<CriarSala
 					show={modalShow}
