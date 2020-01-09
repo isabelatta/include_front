@@ -1,0 +1,39 @@
+.modalEquipeDiv {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 5%;
+  text-align: center;
+}
+
+#divImagemTopo {
+  flex: 1;
+  text-align: center;
+}
+
+#imageGroup {
+  width: 30%;
+}
+
+.equipeBtn {
+  align-self: center;
+  width: 50%;
+  border-color: #f95f62 !important;
+  color: #f95f62 !important;
+  font-family: arial;
+}
+
+.equipeForm {
+  padding: 5%;
+}
+
+.equipeInput {
+  width: 100%;
+  align-self: center;
+}
+
+.equipeInput input {
+  font-weight: 500;
+  font-size: 18px;
+  text-align: center;
+}

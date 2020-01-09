@@ -5,8 +5,10 @@ import './codigoSala.css';
 import Navb from '../componentes/Nav.react';
 import BlocklyAluno from './componentes/BlocklyAluno.react'
 import './alunoSala.css'
+import ModalEquipe from './componentes/ModalEquipe.react';
 
 import { Row, Col, Button } from 'react-bootstrap';
+
 
 
 const coresEntradasSaidas = [
@@ -110,6 +112,7 @@ class AlunoSala extends Component {
     console.log(infoSala)
     return (
       <div>
+      <ModalEquipe show={true}/>
       <Navb 
         nomePagina={(infoSala) ? infoSala.nome : "Sala sem nome"} 
         equipe={nomeEquipe} 
