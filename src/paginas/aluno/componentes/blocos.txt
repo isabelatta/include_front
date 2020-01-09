@@ -1,0 +1,30 @@
+<Category name="Lógica" colour="210">
+  <Block type="controls_if" />
+  <Block type="controls_ifelse" />
+  <Block type="logic_compare" />
+  <Block type="logic_operation" />
+  <Block type="logic_boolean" />
+  <Block type="logic_negate" />
+  <Block type="logic_ternary" />
+</Category>
+<Category name="Matemática" colour="110">
+  <Block type="math_number" />
+  <Block type="math_arithmetic" />
+</Category>
+<Category name="Variável" colour="20">
+  <Block type="variables_get" />
+  <Block type="variables_set" />
+</Category>
+<Category name="Texto" colour="400">
+  <Block type="text" />
+  <Block type="text_append" />
+  <Block type="text_multiline" />
+  <Block type="text_join" />
+  <Block type="text_create_join_container" />
+  <Block type="text_create_join_item" />
+  <Block type="text_length" />
+  <Block type="text_isEmpty" />
+  <Block type="text_indexOf" />
+  <Block type="text_charAt" />
+  <Block type="text_print" />
+</Container>

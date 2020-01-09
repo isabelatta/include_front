@@ -3,10 +3,11 @@ import api from "../../uteis/api";
 
 import './codigoSala.css';
 import Navb from '../componentes/Nav.react';
+import BlocklyAluno from './componentes/BlocklyAluno.react'
 import './alunoSala.css'
 
 import { Row, Col, Button } from 'react-bootstrap';
-import { FaArrowRight } from "react-icons/fa";
+
 
 const coresEntradasSaidas = [
   '#F95F62',
@@ -73,9 +74,6 @@ class AlunoSala extends Component {
       </p>
       <span className="descriAtividade" >Exemplo de Saída: </span>
       <Button variant="outline-primary">{infoSala.modelo_saida}</Button>
-      {/* <Button>
-        {infoSala.modelo_saida}
-      </Button> */}
     </div>
   )
 
@@ -120,21 +118,26 @@ class AlunoSala extends Component {
       />
         {(infoSala)
           ? (
-            <div className="primeiraRow">
-              <Row>
-                <Col xs={6}>
-                  {this.renderDescricaoAtiv(infoSala)}
-                </Col>
-                <Col xs={6}>
-                  <div>
-                    <h3 className="tituloAtividade">
-                      Entradas
-                    </h3>
-                    {this.renderEntradas(entradasSaidas)}
-                  </div>
-                </Col>
-              
-              </Row>
+            <div>
+              <div className="primeiraRow">
+                <Row>
+                  <Col xs={6}>
+                    {this.renderDescricaoAtiv(infoSala)}
+                  </Col>
+                  <Col xs={6}>
+                    <div>
+                      <h3 className="tituloAtividade">
+                        Entradas
+                      </h3>
+                      {this.renderEntradas(entradasSaidas)}
+                    </div>
+                  </Col>
+                
+                </Row>
+              </div>
+              <div>
+                <BlocklyAluno />
+              </div>
             </div>
           )
           : null

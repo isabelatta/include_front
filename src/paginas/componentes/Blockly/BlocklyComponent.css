@@ -1,0 +1,41 @@
+#blocklyDiv {
+  height: 50%;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+}
+
+.blocklyTreeRow {
+  border-radius: 10px;
+  margin-left: 4px;
+  margin-right: 4px;
+  padding-left: 0px;
+  text-align: left;
+  width: 95%;
+  height: 100%;
+  padding: 2px
+}
+
+.blocklyToolboxDiv {
+  background: #FFF;
+  border-right: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
+
+.blocklyFlyoutBackground {
+  fill: #eeee;
+}
+
+.blocklyTreeLabel {
+  cursor: default;
+  font-weight: 300;
+  font-family: unset;
+  font-size: 18px;
+  vertical-align: middle;
+  padding: 10px;
+}
+
+.blocklyTreeIcon {
+  display: none !important;
+}
