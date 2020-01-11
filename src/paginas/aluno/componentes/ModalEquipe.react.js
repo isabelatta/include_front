@@ -31,7 +31,15 @@ class ModalEquipe extends Component {
     onHide();
   }
 
-  renderModal = (show, onHide, atividade) => (
+  salvarNome = () => {
+    const { equipe } = this.state;
+    const { func } = this.props;
+    if (equipe) {
+      func(equipe);
+    }
+  }
+
+  renderModal = (show, onHide, func) => (
     <Modal
       show={show}
       // size="md"
@@ -52,7 +60,7 @@ class ModalEquipe extends Component {
                 onChange={this.handleChange}
               />   
           </Form.Group>
-          <Button variant="flat" onClick={() => this.entrar()} className="equipeBtn">Entrar</Button>
+          <Button variant="flat" onClick={() => this.salvarNome()} className="equipeBtn">Entrar com esse nome</Button>
         </Form>
       </div>
     </Modal>
@@ -63,9 +71,10 @@ class ModalEquipe extends Component {
     const {
       show,
       onHide,
+      func
     } = this.props;
 
-    return this.renderModal(show, onHide)
+    return this.renderModal(show, onHide, func)
     
 	}
 

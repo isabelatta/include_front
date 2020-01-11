@@ -24,15 +24,23 @@ class AlunoSala extends Component {
     this.state = {
       authSuccess: null,
       codigo: null,
-      nomeEquipe: 'Equipe 1',
+      nomeEquipe: null,
       infoSala: null,
       entradasSaidas: [],
+      showModalNomeEquipe: true,
     };
     
   }
 
   componentDidMount = async () => {
     const { codigo } = this.props.location.state;
+    
+    await this.recarregar();
+
+    const nome = localStorage.getItem('equipe');
+    this.setState({
+      nomeEquipe: nome,
+    })
 
     await api
 		  .get(`aluno/infoSala/${codigo}` )
@@ -77,7 +85,43 @@ class AlunoSala extends Component {
       <span className="descriAtividade" >Exemplo de Saída: </span>
       <Button variant="outline-primary">{infoSala.modelo_saida}</Button>
     </div>
-  )
+  );
+
+
+  salvarNomeEquipe = async (nome) => {
+    const { infoSala } = this.state;
+
+    this.setState({
+      showModalNomeEquipe: false,
+    })
+
+    const values = {
+      nome,
+      sala : infoSala.sala_id
+    }
+
+    await api
+    .post(`/aluno/salvarEquipe`, values)
+    .then(response => response.data)
+    .then(results => {
+      console.log(results)
+      localStorage.setItem('equipe', nome);
+      this.setState({
+        nomeEquipe: nome,
+      })
+    });
+    
+  }
+
+  recarregar = () => {
+    const nome = localStorage.getItem('equipe');
+
+    if (nome !== null) {
+      this.setState({
+        showModalNomeEquipe: false,
+      })
+    }
+  }
 
   renderEntradas = (entradasSaidas) => {
     const entradas = [];
@@ -108,11 +152,21 @@ class AlunoSala extends Component {
 
   render() {
     const { codigo } = this.props.location.state;
-    const { nomeEquipe, infoSala, entradasSaidas } = this.state;
+    const {
+      nomeEquipe,
+      infoSala,
+      entradasSaidas,
+      showModalNomeEquipe
+    } = this.state;
+
     console.log(infoSala)
+
     return (
       <div>
-      <ModalEquipe show={true}/>
+      <ModalEquipe
+        show={showModalNomeEquipe}
+        func={this.salvarNomeEquipe}
+      />
       <Navb 
         nomePagina={(infoSala) ? infoSala.nome : "Sala sem nome"} 
         equipe={nomeEquipe} 
