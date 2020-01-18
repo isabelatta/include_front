@@ -51,6 +51,12 @@ class BlocklyComponent extends React.Component {
         return this.primaryWorkspace;
     }
 
+    getXml() {
+        const xmlDom = Blockly.Xml.workspaceToDom(Blockly.mainWorkspace);
+        const xmlText = Blockly.Xml.domToPrettyText(xmlDom);
+        return xmlText;
+    }
+
     setXml(xml) {
         Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(xml), this.primaryWorkspace);
     }

@@ -59,7 +59,10 @@ class CodigoSala extends Component {
       return <Redirect
         to={{
           pathname: "/sala",
-          state: { codigo }
+          state: {
+            codigo,
+            readOnly: false,
+          }
         }}
       />;
     }

@@ -28,6 +28,7 @@ class AlunoSala extends Component {
       infoSala: null,
       entradasSaidas: [],
       showModalNomeEquipe: true,
+      idEquipe: null,
     };
     
   }
@@ -106,8 +107,10 @@ class AlunoSala extends Component {
     .then(results => {
       console.log(results)
       localStorage.setItem('equipe', nome);
+      localStorage.setItem('id_equipe', results.id);
       this.setState({
         nomeEquipe: nome,
+        idEquipe: results.id
       })
     });
     
@@ -151,12 +154,12 @@ class AlunoSala extends Component {
 
 
   render() {
-    const { codigo } = this.props.location.state;
+    const { codigo, readOnly } = this.props.location.state;
     const {
       nomeEquipe,
       infoSala,
       entradasSaidas,
-      showModalNomeEquipe
+      showModalNomeEquipe,
     } = this.state;
 
     console.log(infoSala)
@@ -193,7 +196,7 @@ class AlunoSala extends Component {
                 </Row>
               </div>
               <div>
-                <BlocklyAluno />
+                <BlocklyAluno readOnly={readOnly} />
               </div>
             </div>
           )
