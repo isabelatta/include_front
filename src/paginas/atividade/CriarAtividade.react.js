@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import 'react-alice-carousel/lib/alice-carousel.css';
+import {Redirect} from 'react-router-dom'
 import api from "../../uteis/api";
 import sweetAlertWarn from '../../uteis/sweetAlert';
 
@@ -37,6 +38,7 @@ class CriarAtividade extends Component {
       saidasNovas: [],
       salaId: null,
       modalShow: false,
+      salaIdDash: null,
     }
 	}
 	  
@@ -312,9 +314,25 @@ class CriarAtividade extends Component {
     .post(`/atividade/cadastrar`, values)
     .then(response => response.data)
     .then(results => {
+      this.setState({
+        salaIdDash: results.sala_id
+      })
+      console.log(results)
     });
+  }
 
-    console.log(values)
+  renderRedirect = () => {
+    const { salaIdDash } = this.state;
+    if (salaIdDash !== null) {
+      return (
+        <Redirect
+          to={{
+            pathname: "/dashboard",
+            state: { sala: salaIdDash }
+          }}
+        />
+      )
+    }
   }
 
   gerarDetalhesAtividade = (entradas, saidas, descricao, modalShow) => (
@@ -369,6 +387,7 @@ class CriarAtividade extends Component {
 
 		return(
 			<div>
+        {this.renderRedirect()}
 				<Navb nomePagina='Criar Atividade' principal={false}/>
         <Container style={{ marginTop: 30 }}>
           <Row>

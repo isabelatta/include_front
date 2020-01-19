@@ -150,7 +150,6 @@ class CriarSala extends Component {
 
   renderRedirect = () => {
     const {salaId} = this.state
-    console.log("teste")
     if (salaId !== null) {
       return (
         <Redirect

@@ -14,6 +14,7 @@ import SalaView from './paginas/sala/SalaViews.react'
 import CriarAtividade from './paginas/atividade/CriarAtividade.react'
 import CodigoSala from './paginas/aluno/CodigoSala.react';
 import AlunoSala from './paginas/aluno/AlunoSala.react';
+import Dashboard from './paginas/dashboard/Dashboard.react'
 
 
 
@@ -29,6 +30,7 @@ function App() {
         <Route exact path ='/criarAtividade' component={CriarAtividade}/>
         <Route exact path ='/entrarSala' component={CodigoSala}/>
         <Route exact path ='/sala' component={AlunoSala}/>
+        <Route exact path ='/dashboard' component={Dashboard}/>
         {/* <div>
           <Login/>
         </div> */}

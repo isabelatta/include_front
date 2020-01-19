@@ -1,0 +1,27 @@
+
+
+#codigoButton {
+  background-color: rgb(151, 109, 208);
+  border-color: rgb(151, 109, 208);
+  font-size: xx-large;
+  font-weight: 700;
+}
+
+.margemTotal {
+  margin-top: 3%;
+  margin-left: 5%;
+}
+
+.margemTitulo {
+  margin-top: 2%;
+}
+
+.codigoDash {
+  display: flex;
+  flex-direction: column;
+}
+
+.botaoCodigo {
+  width: 50%;
+  align-self: center;
+}
