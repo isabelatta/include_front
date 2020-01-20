@@ -25,3 +25,23 @@
   width: 50%;
   align-self: center;
 }
+
+.equipesDiv {
+  display: flex;
+  flex-direction: column;
+  margin: 5%;
+}
+
+.equipesBtn {
+  margin: 2%;
+}
+
+.equipeText {
+  text-align: left;
+}
+
+.finalizadoText {
+  border-left-color: #DDD;
+  border-left-width: 1px;
+  border-left-style: solid;
+}

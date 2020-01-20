@@ -6,6 +6,7 @@ import sweetAlertWarn from '../../uteis/sweetAlert';
 
 
 import { Container, Row, Col, Button } from 'react-bootstrap';
+import {Redirect} from 'react-router-dom'
 import Navb from '../componentes/Nav.react';
 import CheckButtom from '../componentes/CheckButtom.react';
 import BotaoAtividade from '../componentes/BotaoAtividade.react';
@@ -38,6 +39,7 @@ class Dashboard extends Component {
       salaId: 46,
       equipes: null,
       modalShow: false,
+      equipeId: null,
     }
 	}
 	  
@@ -58,58 +60,21 @@ class Dashboard extends Component {
 				}
       });
 
-      // await api
-		  // .get(`dashboard/listarEquipes/${salaId}` )
-		  // .then(response => response.data)
-		  // .then(results => {
-			// 	if (results) {
-      //     console.log(results)
-			// 		this.setState({
-			// 			equipes: results,
-			// 		});
-			// 	}
-      // });
-      
-    // window.onbeforeunload = function(res) {
-    //   return "";
-    // }.bind(this);
-    // window.onunload = function(){
-    //   const { salaId } = this.state;
-    //   api.get(`atividade/desfazerAtividade/${salaId}`);
-    // };
+      await api
+		  .get(`dashboard/listarEquipes/${salaId}` )
+		  .then(response => response.data)
+		  .then(results => {
+				if (results) {
+          console.log(results)
+					this.setState({
+						equipes: results,
+					});
+				}
+      });
+   
   };
   
-  // mudaAssunto = async (valor) => {
-  //   const {entradaSaidaIds} = this.state;
-    
-  //   let checkClick = true;
-  //   if (entradaSaidaIds.length > 0) {
-  //     checkClick = await sweetAlertWarn(
-  //       "Deseja realizar esta ação?",
-  //       "Ao continuar todas as modificações da atividade serão perdidas"
-  //     );
-  //   }
-
-  //   if (checkClick) {
-  //     this.setState({
-  //       assunto: valor,
-  //       atividade: null,
-  //       entradaSaidaIds: [],
-  //     });
-
-  //     await api
-  //     .get(`atividade/listarAtividades/${valor}` )
-  //     .then(response => response.data)
-  //     .then(results => {
-  //       if (results) {
-  //         console.log(results)
-  //         this.setState({
-  //           atividades: results,
-  //         });
-  //       }
-  //     });
-  //   }  
-  // }
+  
 
   renderEntradaSaida = (tipo) => {
     const { assunto } = this.state
@@ -140,224 +105,67 @@ class Dashboard extends Component {
     return buttons
   }
 
-  // mudaAtividade = async (valor) => {
-  //   const { entradaSaidaIds, salaId } = this.state;
-  //   let checkClick = true;
-  //   if (entradaSaidaIds.length > 0) {
-  //     checkClick = await sweetAlertWarn(
-  //       "Deseja realizar esta ação?",
-  //       "Ao continuar todas as modificações da atividade serão perdidas"
-  //     );
-  //   }
-
-  //   if (checkClick) {
-  //     this.setState({ atividade: valor });
-
-  //     await this.listarEntradasSaidas(valor, salaId);
-  //   }
-
-  // }
-
-  // listarEntradasSaidas = async (atividade, sala) => {
-  //   console.log("entrou");
-  //   await api
-  //   .get(`atividade/listarEntradasSaidas/${atividade}/${sala}` )
-  //   .then(response => response.data)
-  //   .then(results => {
-  //     if (results) {
-  //       console.log(results)
-  //       const entradas = []
-  //       const saidas = []
-  //       const entradaSaidaIds = []
-  //       if(results.length > 0) {
-  //         results.forEach((r) => {
-  //           entradas.push({
-  //             id: r.id,
-  //             descri: r.entrada,
-  //           });
-  //           saidas.push({
-  //             id: r.id,
-  //             descri: r.saida,
-  //           });
-  //           entradaSaidaIds.push(r.id);
-  //         })
-  //       }
-  //       this.setState({
-  //         entradas,
-  //         saidas,
-  //         entradaSaidaIds
-  //       });
-  //     }
-  //   });
-  // }
-
-  // mudaEntradaSaida = (valor) => {
-  //   console.log(valor);
-  //   const { entradaSaidaIds } = this.state;
-  //   if(entradaSaidaIds.includes(valor)){
-  //     const index = entradaSaidaIds.indexOf(valor);
-  //     entradaSaidaIds.splice(index, 1)
-  //   } else {
-  //     entradaSaidaIds.push(valor)
-  //   }
-
-  //   this.setState({ entradaSaidaIds })
-  // }
-
-  // adicionarEntraSaid = async (entrada, saida) => {
-  //   const {
-  //     atividade,
-  //     salaId,
-  //     entradas,
-  //     saidas,
-  //     entradaSaidaIds,
-  //   } = this.state;
-  //   const values = {
-  //     entrada,
-  //     saida,
-  //     atividade,
-  //     sala: salaId
-  //   }
-  //   this.setState({
-  //     modalShow: false,
-  //   })
-
-  //   await api
-  //   .post(`/atividade/cadastrarEntradaSaida`, values)
-  //   .then(response => response.data)
-  //   .then(response => {
-  //       const { id, entrada, saida } = response; 
-  //       entradaSaidaIds.push(id)
-  //       entradas.push({
-  //         id,
-  //         descri: entrada,
-  //       });
-  //       saidas.push({
-  //         id,
-  //         descri: saida,
-  //       });
-  //       this.setState({
-  //         entradas,
-  //         saidas,
-  //         entradaSaidaIds
-  //       });
-  //   });
-
-  // }
-
-  // gerarAssuntos = (assuntos) => {
-  //   const { assunto: assuntoState } = this.state;
-  //   const assuntosComponents = [];
-  //   assuntos.forEach((assunto) => {
-  //     let checked = false;
-  //     if (assunto.id === assuntoState) checked = true;
-  //     assuntosComponents.push(
-  //       <CheckButtom
-  //         key= {assunto.id}
-  //         descricao={assunto.descri}
-  //         valor={assunto.id}
-  //         cor={assunto.cor}
-  //         checked={checked}
-  //         funcao={this.mudaAssunto}
-  //       />
-  //     )
-  //   });
-  //   return assuntosComponents;
-  // }
-
- 
 
 
-  // gerarAtividades = (atividades) => {
-  //   const { atividade: atividadeState, assunto } = this.state;
-  //   const atividadesComponents = [];
-  //   if (assunto) {
-  //     if(atividades.length > 0) {
-  //       atividades.forEach((atividade) => {
-  //         let checked = false;
-  //         if (atividade.id === atividadeState) checked = true;
-  //         atividadesComponents.push(
-  //           <BotaoAtividade
-  //             key= {atividade.id}
-  //             descricao={atividade.titulo}
-  //             valor={atividade.id}
-  //             checked={checked}
-  //             funcao={this.mudaAtividade}
-  //           />
-  //         )
-  //       });
-  //     } else {
-  //       atividadesComponents.push(
-  //         <p className="ajudaSecao">
-  //           Não possuimos atividades relacionadas a esse assunto por enquanto,
-  //           selecione outro assunto para continuar.
-  //         </p>
-  //       )
-  //     }
-  //   } else {
-  //     atividadesComponents.push(
-  //       <p className="ajudaSecao"> Necessário selecionar um assunto</p>
-  //     )
-  //   }
-  //   return atividadesComponents;
-  // }
+  renderEquipes = () => {
+    const { equipes } = this.state
+    const buttons = [];
+    
+    if (equipes) {
+      equipes.forEach(eq => {
+        buttons.push(
+          <Button
+            variant="outline-secondary"
+            className="equipesBtn"
+            onClick={() => {this.setState({equipeId: eq.id})}}
+          >
+            <Row>
+              <Col xs={8} className="equipeText">
+                Equipe {eq.nome}
+              </Col>
+              <Col xs={4} className="finalizadoText" >
+                {(eq.finalizado) 
+                ? <span style={{color: "#77d353", fontWeight: 600}}> Finalizado </span>
+                : <span style={{color: "#FF9052", fontWeight: 600}}> Fazendo </span>
+                }
+              </Col>
+            </Row>
+          </Button>
+        )
+      })
+    }
 
-  // iniciarAtividade = async () => {
-  //   const {atividade, entradaSaidaIds, salaId} = this.state;
+    return buttons
+
+  }
 
 
-  //   const values = {
-  //     atividade,
-  //     entradaSaidaIds,
-  //     salaId
-  //   };
+  renderRedirect = () => {
+    const { equipeId, assunto} = this.state
 
-  //   await api
-  //   .post(`/atividade/cadastrar`, values)
-  //   .then(response => response.data)
-  //   .then(results => {
-  //   });
+    
 
-  //   console.log(values)
-  // }
+    if( equipeId ){
+      const codigo = assunto.atividade.codigo
+      return (
+        <Redirect
+          to={{
+            pathname: "/sala",
+            state: { equipeId, codigo}
+          }}
+        />
+      )
+    }
+   
 
-  // gerarDetalhesAtividade = (entradas, saidas, descricao, modalShow) => (
-  //   <div>
-  //     <div className="secaoAtividade">
-  //       <h5 className="tituloSecao">Descrição da atividade:</h5>
-  //       <p style={{ color: "#47525E" }}>
-  //         {descricao}
-  //       </p>
-  //       <Button
-  //         variant="outline-success"
-  //         onClick={() => this.setState({ modalShow: !modalShow})}
-  //       >
-  //         Adicionar entradas e saídas
-  //       </Button>
-  //     </div>
-  //     <div className="scrollSecaoAtividade">
-  //       <div className="secaoAtividade">
-  //         <h5 className="tituloSecao">Entradas:</h5>
-  //         <div className="checkButtonGroup">
-  //           {this.gerarEntradasSaidas(entradas)}
-  //         </div>
-  //       </div>
-  //       <div className="secaoAtividade">
-  //         <h5 className="tituloSecao">Saidas:</h5>
-  //         <div className="checkButtonGroup">
-  //           {this.gerarEntradasSaidas(saidas)}
-  //         </div>
-  //       </div>
-  //     </div>
-  //     <InitButton funcao={this.iniciarAtividade}/>
-  //   </div>
-  // );
+  }
 
 	render() {
     const {assunto} = this.state
 
 		return(
 			<div>
+        {this.renderRedirect()}
         <Navb nomePagina='Dashboard' principal={false} aluno={false}/>
         <div>
           <Row>
@@ -383,7 +191,11 @@ class Dashboard extends Component {
               </Button>
             </div>
           </Col>
-          <Col> oioi  </Col>
+          <Col>
+            <div className="equipesDiv">
+              {this.renderEquipes()}
+            </div>
+           </Col>
           </Row>
         </div>
 
