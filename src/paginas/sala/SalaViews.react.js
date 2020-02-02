@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import 'react-alice-carousel/lib/alice-carousel.css';
 import api from "../../uteis/api";
 import moment from "moment";
+import {Redirect} from 'react-router-dom'
 
 import '../sala/sala.css';
 
-import CardDeck from 'react-bootstrap/CardDeck';
 import Card from 'react-bootstrap/Card';
 
 
@@ -38,7 +37,8 @@ const color = [
 		this.state = {
 			salasAbertas: [],
 			salasFechadas: [],
-			};
+			salaIdRedirect: null,
+		};
 	}
 	  
 	componentDidMount = async () => {
@@ -68,7 +68,7 @@ const color = [
 		salas.forEach(sala => {
 			let dataCriacao = moment(sala.data).format("DD/MM/YYYY")
 			cards.push(
-				<Card className= "styleCard">
+				<Card className= "styleCard" onClick={() => this.setState({salaIdRedirect: sala.id})}>
 					<Card.Header className = "styleCardHeader" style={{ backgroundColor: sala.cor }}>
 						{sala.assunDesc}
 					</Card.Header>
@@ -92,7 +92,10 @@ const color = [
 			salas.forEach(sala => {
 				let dataCriacao = moment(sala.data).format("DD/MM/YYYY")
 				cards.push(
-					<Card className= "styleCard">
+					<Card
+						className= "styleCard"
+						onClick={() => this.setState({salaIdRedirectSalaFechada: sala.id})}
+					>
 							<Card.Header className = "styleCardHeader" style={{ backgroundColor: "#77D353" }}>
 								{sala.assunDesc}
 							</Card.Header>
@@ -116,10 +119,48 @@ const color = [
 	slidePrev = () => this.setState({ currentIndex: this.state.currentIndex - 1 })
 
 
+	renderRedirect = () => {
+    const { salaIdRedirect } = this.state
+
+    if (salaIdRedirect) {
+      return (
+        <Redirect
+          to={{
+            pathname: "/editarAtividade",
+            state: {
+							salaId: salaIdRedirect,
+							edit: true,
+            }
+          }}
+        />
+      )
+    }
+	}
+
+	renderRedirectSalaFechada = () => {
+    const { salaIdRedirectSalaFechada } = this.state
+
+    if (salaIdRedirectSalaFechada) {
+      return (
+        <Redirect
+          to={{
+            pathname: "/dashboard",
+            state: {
+							salaId: salaIdRedirectSalaFechada,
+							fechada: true,
+            }
+          }}
+        />
+      )
+    }
+	}
+	
 	render(){
 		const { salasAbertas, salasFechadas } = this.state;
 		return(
 			<div>
+				{this.renderRedirect()}
+				{this.renderRedirectSalaFechada()}
 				<Navb principal={true}/>
 					<div>
 						<h1 className="styleText">Salas Abertas</h1>

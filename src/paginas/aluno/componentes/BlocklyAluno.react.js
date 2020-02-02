@@ -31,13 +31,17 @@ class BlocklyAluno extends Component {
   componentDidMount = async () => {
     // const xmlText = localStorage.getItem("xml");
     // this.simpleWorkspace.setXml(xmlText);
-    this.countdown = setInterval(this.timer, TIMESAVE);
+    const { readOnly } = this.props;
+    if (!readOnly) {
+      this.countdown = setInterval(this.timer, TIMESAVE);
+    }
     const equipe = localStorage.getItem('id_equipe');
     await api
     .get(`aluno/consultarCodigo/${equipe}` )
     .then(response => response.data)
     .then(results => {
-      if (results) {
+      console.log(results)
+      if (results && !results.errorMsg) {
         this.simpleWorkspace.setXml(results.codigo);
       }
     });
@@ -48,6 +52,8 @@ class BlocklyAluno extends Component {
     const equipe = localStorage.getItem('id_equipe');
     const xmlText = this.simpleWorkspace.getXml();
     const codigoCriado = await localStorage.getItem('codigoCriado');
+
+    console.log(xmlText);
 
     if (equipe && xmlText) {
       const values = {

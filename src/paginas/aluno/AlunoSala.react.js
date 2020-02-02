@@ -34,9 +34,13 @@ class AlunoSala extends Component {
   }
 
   componentDidMount = async () => {
-    const { codigo } = this.props.location.state;
+    const { codigo, equipeId, equipeNome } = this.props.location.state;
     
     await this.recarregar();
+    if (equipeId && equipeNome) {
+      localStorage.setItem('id_equipe', equipeId);
+      localStorage.setItem('equipe', equipeNome);
+    }
 
     const nome = localStorage.getItem('equipe');
     this.setState({
@@ -154,7 +158,7 @@ class AlunoSala extends Component {
 
 
   render() {
-    const { codigo, readOnly } = this.props.location.state;
+    const { readOnly } = this.props.location.state;
     const {
       nomeEquipe,
       infoSala,
@@ -162,7 +166,7 @@ class AlunoSala extends Component {
       showModalNomeEquipe,
     } = this.state;
 
-    console.log(infoSala)
+    console.log(readOnly)
 
     return (
       <div>

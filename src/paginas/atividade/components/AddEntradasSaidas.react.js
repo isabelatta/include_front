@@ -109,7 +109,10 @@ class CriarSala extends Component {
       atividade,
     } = this.props;
 
-    const atividadeView = atividades.filter(a => a.id === atividade);
+    // if (atividades)
+    let atividadeView = [];
+    if (atividades.length > 0)
+      atividadeView = atividades.filter(a => a.id === atividade);
 
     if (atividadeView.length > 0) {
       return this.renderModal(show, onHide, atividadeView[0])

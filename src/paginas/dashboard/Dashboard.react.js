@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
 import 'react-alice-carousel/lib/alice-carousel.css';
 import api from "../../uteis/api";
-import sweetAlertWarn from '../../uteis/sweetAlert';
 
-
-
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import {Redirect} from 'react-router-dom'
 import Navb from '../componentes/Nav.react';
-import CheckButtom from '../componentes/CheckButtom.react';
-import BotaoAtividade from '../componentes/BotaoAtividade.react';
-import InitButton from '../componentes/InitButton.react';
 
 import './dashboard.css'
 
@@ -36,16 +30,15 @@ class Dashboard extends Component {
       saidas: [],
       entradasNovas: [],
       saidasNovas: [],
-      salaId: 46,
       equipes: null,
       modalShow: false,
       equipeId: null,
+      equipeNome: null,
     }
 	}
 	  
 	componentDidMount = async () => {
-    // const { salaId } = this.props.location.state;
-    const { salaId } = this.state
+    const { salaId } = this.props.location.state;
     // this.setState({
     //   salaId
     // })
@@ -110,14 +103,13 @@ class Dashboard extends Component {
   renderEquipes = () => {
     const { equipes } = this.state
     const buttons = [];
-    
-    if (equipes) {
+    if (equipes && !equipes.errorMsg) {
       equipes.forEach(eq => {
         buttons.push(
           <Button
             variant="outline-secondary"
             className="equipesBtn"
-            onClick={() => {this.setState({equipeId: eq.id})}}
+            onClick={() => {this.setState({equipeId: eq.id, equipeNome: eq.nome})}}
           >
             <Row>
               <Col xs={8} className="equipeText">
@@ -141,17 +133,22 @@ class Dashboard extends Component {
 
 
   renderRedirect = () => {
-    const { equipeId, assunto} = this.state
+    const { equipeId, equipeNome, assunto} = this.state
 
     
 
-    if( equipeId ){
-      const codigo = assunto.atividade.codigo
+    if( equipeId && equipeNome ){
+      const codigo = assunto.atividade.codigo;
       return (
         <Redirect
           to={{
             pathname: "/sala",
-            state: { equipeId, codigo}
+            state: {
+              equipeId,
+              codigo,
+              equipeNome,
+              readOnly: true,
+            }
           }}
         />
       )
@@ -162,6 +159,8 @@ class Dashboard extends Component {
 
 	render() {
     const {assunto} = this.state
+    const { fechada } = this.props.location.state;
+    console.log(assunto);
 
 		return(
 			<div>
@@ -184,12 +183,16 @@ class Dashboard extends Component {
               <h4 className="tituloAtividade"> Saídas</h4>
               {this.renderEntradaSaida('saida')} 
             </div>
-            <div className="margemTitulo codigoDash">
-              <h4 className="tituloAtividade"> Código</h4>
-              <Button variant="primary" size="lg" id="codigoButton" className="botaoCodigo" >
-                {(assunto) ? assunto.atividade.codigo : null}
-              </Button>
-            </div>
+            {(!fechada)
+              ? (
+                <div className="margemTitulo codigoDash">
+                  <h4 className="tituloAtividade"> Código</h4>
+                  <Button variant="primary" size="lg" id="codigoButton" className="botaoCodigo" >
+                    {(assunto) ? assunto.atividade.codigo : null}
+                  </Button>
+                </div>
+              ) : null
+            }
           </Col>
           <Col>
             <div className="equipesDiv">

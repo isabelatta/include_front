@@ -44,6 +44,11 @@
     border-color: #fff;
     margin-right: 5% !important;
     margin-left: 5% !important;
+    cursor: pointer;
+}
+
+.styleCard :hover {
+    opacity: 0.6;
 }
 
 .alice-carousel {

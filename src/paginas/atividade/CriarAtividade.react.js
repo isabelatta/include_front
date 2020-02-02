@@ -39,20 +39,36 @@ class CriarAtividade extends Component {
       salaId: null,
       modalShow: false,
       salaIdDash: null,
+      results: null,
     }
 	}
 	  
 	componentDidMount = async () => {
-    const { salaId } = this.props.location.state;
+    const { salaId, edit } = this.props.location.state;
     this.setState({
       salaId
     })
+
+    if (edit) {
+      await api
+		  .get(`sala/infoSala/${salaId}` )
+		  .then(response => response.data)
+		  .then(async results => {
+				if (results) {
+          const { sala } = results;
+          await this.mudaAssunto(sala.assunto_id)
+          await this.mudaAtividade(sala.ativ_id)
+				}
+      });
+      
+    }
+
     await api
 		  .get(`atividade/listarAssuntos` )
 		  .then(response => response.data)
 		  .then(results => {
 				if (results) {
-          console.log(results)
+          // console.log(results)
 					this.setState({
 						assuntos: results,
 					});
@@ -328,7 +344,7 @@ class CriarAtividade extends Component {
         <Redirect
           to={{
             pathname: "/dashboard",
-            state: { sala: salaIdDash }
+            state: { salaId: salaIdDash }
           }}
         />
       )

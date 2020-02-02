@@ -28,6 +28,7 @@ function App() {
         <Route exact path='/cadastro' component={Cadastro} />
         <Route exact path='/Home' component={SalaView} />
         <Route exact path ='/criarAtividade' component={CriarAtividade}/>
+        <Route exact path ='/editarAtividade' component={CriarAtividade}/>
         <Route exact path ='/entrarSala' component={CodigoSala}/>
         <Route exact path ='/sala' component={AlunoSala}/>
         <Route exact path ='/dashboard' component={Dashboard}/>
