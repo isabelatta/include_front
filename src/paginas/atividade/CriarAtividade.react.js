@@ -379,7 +379,7 @@ class CriarAtividade extends Component {
           </div>
         </div>
       </div>
-      <InitButton titulo={"Iniciar Atividade"} funcao={this.iniciarAtividade}/>
+      <InitButton tituloBtn={"Iniciar Atividade"} funcao={this.iniciarAtividade}/>
     </div>
   );
 

@@ -49,7 +49,7 @@ class CriarSala extends Component {
 
   cadastrar = async submitted => {
     const { onHide } = this.props;
-    const {nome, descri, checkNome, checkDescri} = this.state;
+    const { nome, descri } = this.state;
 
     const usuario =  await localStorage.getItem("id");
     let data =  moment().format("YYYY-MM-DD")
@@ -62,19 +62,19 @@ class CriarSala extends Component {
       aberta: 1,
     };
 
-    await this.check()
+    await this.check();
+
+    const { checkNome, checkDescri } = this.state;
 
     if(checkNome && checkDescri){
-      // const response = await api.post("/sala/cadastrar", values).then(response => {
-      //   console.log(response)
-      // });
       await api
       .post(`/sala/cadastrar`, values)
       .then(response => response.data)
       .then(results => {
-        this.setState({salaId: results.id})
+        console.log(results);
+        this.setState({ salaId: results.id })
       });
-      // console.log(response);
+    
     } 
   };
 
@@ -120,9 +120,7 @@ class CriarSala extends Component {
       });
     }
 
-
   }
-
 
   popoverNome = () => {
     const {messageNome} = this.state;
@@ -162,7 +160,7 @@ class CriarSala extends Component {
     }
   }
 
-  renderModal = (show, onHide) => (
+  renderModal = (show, onHide, salaId) => (
     <Modal
       show={show}
       size="lg"
@@ -171,7 +169,6 @@ class CriarSala extends Component {
       onHide={() => this.onHideScreen(onHide)}
       className="modalForm"
     >
-      {this.renderRedirect}
       <Modal.Header closeButton className="headerModal">
         <Modal.Title id="contained-modal-title-vcenter">
           Criar Sala
@@ -214,8 +211,9 @@ class CriarSala extends Component {
 	render(){
     const { show, onHide } = this.props;
     const { salaId } = this.state;
+    console.log(salaId);
     if (salaId) return this.renderRedirect()
-    else return this.renderModal(show, onHide)
+    else return this.renderModal(show, onHide, salaId)
 	}
 
 }

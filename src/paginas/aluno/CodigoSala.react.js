@@ -31,10 +31,18 @@ class CodigoSala extends Component {
     });
   }
 
+  limpaLocalS = () => {
+    localStorage.removeItem("codigoCriado")
+    localStorage.removeItem("equipe")
+    localStorage.removeItem("id_equipe")
+  }
+
 
 
   entrar = async submitted => {
     const {codigo} = this.state
+
+    this.limpaLocalS();
 
     const response = await api.get(`/aluno/inserirCodigo/${codigo}`);
     console.log(response);

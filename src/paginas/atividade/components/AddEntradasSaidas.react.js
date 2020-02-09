@@ -38,7 +38,10 @@ class CriarSala extends Component {
   adicionarEntSaida = () => {
     const { submit } = this.props;
     const { entrada, saida } = this.state;
-    submit(entrada, saida);
+    if(entrada && saida){
+      submit(entrada, saida);
+    }
+    
   }
 
   renderModal = (show, onHide, atividade) => (
@@ -51,7 +54,7 @@ class CriarSala extends Component {
       className="modalEntrSaid"
     >
       <div className="divEntSaida">
-        <h3>Digite uma entrada e uma saída esperada</h3>
+        <h3>Informe as entradas e saída esperadas</h3>
 
         <Form>
           <Form.Row>
@@ -94,9 +97,6 @@ class CriarSala extends Component {
         </div>
 
       </div>
-      {/* <Modal.Footer>
-        <Button className="btnModal"> Adicionar </Button>
-      </Modal.Footer> */}
     </Modal>
   )
 
