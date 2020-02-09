@@ -49,13 +49,15 @@ const color = [
 		  .then(response => response.data)
 		  .then(results => {
 				if (results) {
-					const salasAbertas = results.filter((sala) => sala.aberta === 1);
-					const salasFechadas = results.filter((sala) => sala.aberta === 0);
-					console.log(salasAbertas)
-					this.setState({
-						salasAbertas,
-						salasFechadas,
-					});
+					if (results.length > 0) {
+						const salasAbertas = results.filter((sala) => sala.aberta === 1);
+						const salasFechadas = results.filter((sala) => sala.aberta === 0);
+						console.log(salasAbertas)
+						this.setState({
+							salasAbertas,
+							salasFechadas,
+						});
+					}
 				}
 		  });
 
@@ -177,7 +179,7 @@ const color = [
 									<p>
 										Clique em
 										<b> Criar Sala </b>
-										no topo da página para poder criar uma nova
+										no topo da página para criar uma nova
 										sala.
 									</p>
 								</div>

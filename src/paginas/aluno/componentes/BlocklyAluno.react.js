@@ -53,8 +53,6 @@ class BlocklyAluno extends Component {
     const xmlText = this.simpleWorkspace.getXml();
     const codigoCriado = await localStorage.getItem('codigoCriado');
 
-    console.log(xmlText);
-
     if (equipe && xmlText) {
       const values = {
         equipe_id: equipe,
@@ -77,10 +75,13 @@ class BlocklyAluno extends Component {
   }
 
   generateCode = () => {
+    const {corrigirAtiv} = this.props
     const xmlText = this.simpleWorkspace.getXml();
     var code = BlocklyJS.workspaceToCode(this.simpleWorkspace.workspace);
-    eval(code);
-    console.log(code);
+    // const teste = eval(code);
+    var result = eval('(function() {' + code + '}())');
+    window.alert(result);
+    corrigirAtiv(result);
   }
 
   
@@ -110,8 +111,8 @@ class BlocklyAluno extends Component {
           <Category name="Texto" colour="#00A6FF">
             <Block type="text" />
             <Block type="text_append" />
-            <Block type="text_join" />
-            <Block type="text_print" />
+            {/* <Block type="text_print" /> */}
+            <Block type="test_react_field" />
           </Category>
           <Category name="Lógica" colour="#976DD0">
             <Block type="controls_if" />

@@ -5,8 +5,11 @@ import api from "../../uteis/api";
 import { Row, Col, Button } from 'react-bootstrap';
 import {Redirect} from 'react-router-dom'
 import Navb from '../componentes/Nav.react';
+import sweetAlertWarn from '../../uteis/sweetAlert';
 
 import './dashboard.css'
+import InitButton from '../componentes/InitButton.react';
+
 
 
 
@@ -34,6 +37,8 @@ class Dashboard extends Component {
       modalShow: false,
       equipeId: null,
       equipeNome: null,
+      finalizada: false,
+      salaEstado: 0,
     }
 	}
 	  
@@ -58,9 +63,21 @@ class Dashboard extends Component {
 		  .then(response => response.data)
 		  .then(results => {
 				if (results) {
-          console.log(results)
+          // console.log(results)
 					this.setState({
 						equipes: results,
+					});
+				}
+      });
+
+      await api
+		  .get(`dashboard/salaEstado/${salaId}` )
+		  .then(response => response.data)
+		  .then(results => {
+				if (results) {
+          console.log(results)
+					this.setState({
+						salaEstado: results[0].aberta,
 					});
 				}
       });
@@ -133,7 +150,12 @@ class Dashboard extends Component {
 
 
   renderRedirect = () => {
-    const { equipeId, equipeNome, assunto} = this.state
+    const { 
+      equipeId, 
+      equipeNome, 
+      assunto,
+      finalizada,
+    } = this.state
 
     
 
@@ -152,15 +174,48 @@ class Dashboard extends Component {
           }}
         />
       )
+    } else if (finalizada){
+      return (
+        <Redirect
+          to={{
+            pathname: "/home",
+          }}
+        />
+      )
     }
    
 
   }
 
+  finalizarAtiv = async () => {
+    const { salaId } = this.props.location.state;
+  
+    const confirm = await sweetAlertWarn('Tem Certeza?', 
+    'Essa ação irá finalizar a atividade e fechar a sala, dessa forma nenhum aluno poderá continuar o exercício',
+    );
+
+    if(confirm) {
+      const values = {
+        salaId,
+        aberta: 0
+      }
+  
+      await api
+          .put(`/sala/fecharSala`, values)
+          .then(response => response.data)
+          .then(results => {
+            this.setState({
+              finalizada: true
+            })
+          });
+    }
+
+  }
+
 	render() {
-    const {assunto} = this.state
+    const {assunto, finalizada, salaEstado} = this.state
     const { fechada } = this.props.location.state;
-    console.log(assunto);
+    // console.log(assunto);
 
 		return(
 			<div>
@@ -198,7 +253,12 @@ class Dashboard extends Component {
             <div className="equipesDiv">
               {this.renderEquipes()}
             </div>
+            {(salaEstado)
+              ? <InitButton tituloBtn="Finalizar Atividade" funcao={this.finalizarAtiv}/>
+              : null 
+            }
            </Col>
+            
           </Row>
         </div>
 

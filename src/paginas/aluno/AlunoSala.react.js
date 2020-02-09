@@ -6,8 +6,11 @@ import Navb from '../componentes/Nav.react';
 import BlocklyAluno from './componentes/BlocklyAluno.react'
 import './alunoSala.css'
 import ModalEquipe from './componentes/ModalEquipe.react';
+import InitButton from '../componentes/InitButton.react';
 
 import { Row, Col, Button } from 'react-bootstrap';
+import sweetAlertWarn from '../../uteis/sweetAlert';
+
 
 
 
@@ -79,6 +82,22 @@ class AlunoSala extends Component {
     });
   }
 
+  corrigirAtiv = (code) => {
+    let teste = "x = -2";
+    let valid = true;
+    teste = teste.replace(/\s/g, "").toLowerCase();
+    const resultado = code.replace(/\s/g, "").toLowerCase();
+    Array.from(teste).forEach((element, index) => {
+      if (element !== resultado[index]) {
+        valid = false;
+      }
+    });
+
+  } 
+
+
+
+
   renderDescricaoAtiv = (infoSala) => (
     <div>
       <h3 className="tituloAtividade">
@@ -109,7 +128,6 @@ class AlunoSala extends Component {
     .post(`/aluno/salvarEquipe`, values)
     .then(response => response.data)
     .then(results => {
-      console.log(results)
       localStorage.setItem('equipe', nome);
       localStorage.setItem('id_equipe', results.id);
       this.setState({
@@ -156,6 +174,31 @@ class AlunoSala extends Component {
     return entradas
   }
 
+  finalizarAtiv = async () => {
+    const idEquipe = await localStorage.getItem('id_equipe');
+  
+    const confirm = await sweetAlertWarn('Tem Certeza?', 
+    'Essa ação irá sinalizar o(a) professor(a) que sua atividade foi concluída',
+    );
+
+    if(confirm) {
+      const values = {
+        idEquipe,
+        finalizado: 1
+      }
+  
+      await api
+          .put(`/aluno/finalizarAtiv`, values)
+          .then(response => response.data)
+          .then(results => {
+            this.setState({
+              finalizada: true
+            })
+          });
+    }
+
+  }
+
 
   render() {
     const { readOnly } = this.props.location.state;
@@ -165,8 +208,6 @@ class AlunoSala extends Component {
       entradasSaidas,
       showModalNomeEquipe,
     } = this.state;
-
-    console.log(readOnly)
 
     return (
       <div>
@@ -188,6 +229,7 @@ class AlunoSala extends Component {
                   <Col xs={6}>
                     {this.renderDescricaoAtiv(infoSala)}
                   </Col>
+
                   <Col xs={6}>
                     <div>
                       <h3 className="tituloAtividade">
@@ -195,12 +237,13 @@ class AlunoSala extends Component {
                       </h3>
                       {this.renderEntradas(entradasSaidas)}
                     </div>
+                    <InitButton tituloBtn="Finalizar Atividade" funcao={this.finalizarAtiv}/>
                   </Col>
                 
                 </Row>
               </div>
               <div>
-                <BlocklyAluno readOnly={readOnly} />
+                <BlocklyAluno readOnly={readOnly} corrigirAtiv = {this.corrigirAtiv} />
               </div>
             </div>
           )

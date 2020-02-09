@@ -452,3 +452,24 @@ Blockly.Blocks['logic_ternary']= {
     this.setColour('#976DD0');
   }
 };
+
+var testReactField = {
+  "type": "test_react_field",
+  "message0": "imprime %1",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "TEXT_OUT",
+    },
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+};
+
+Blockly.Blocks['test_react_field'] = {
+  init: function() {
+    this.jsonInit(testReactField);
+    this.setStyle('loop_blocks');
+    this.setColour('#00A6FF');
+  }
+};

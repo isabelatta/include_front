@@ -31,7 +31,7 @@ class InitButton extends Component {
 
 
   render(){
-    const { funcao } = this.props;
+    const { funcao, tituloBtn} = this.props;
     return (
       <div style={this.divSuperStyle}>
         <Button
@@ -40,7 +40,7 @@ class InitButton extends Component {
           size="lg"
           onClick={funcao}
         >
-          Iniciar Atividade
+          {tituloBtn}
           <FaCheck style={this.iconStyle}/>
         </Button>
       </div>
