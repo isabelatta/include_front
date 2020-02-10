@@ -1,11 +1,22 @@
 .LoginBtn {
-  position: absolute;
-  top: 55%;
-  left: 39%;
-  width: 18%;
+  /* position: absolute; */
+  /* top: 65%; */
+  /* left: 39%; */
+  width: 60%;
   border-color: #f95f62 !important;
   color: #f95f62 !important;
   font-family: arial;
+}
+
+.divButtonLogin{
+  display: flex;
+  justify-content: center;
+}
+
+.LogoDiv {
+  justify-content: center;
+  display: flex;
+  margin-bottom: 20px;
 }
 
 .LoginBtn:hover {

@@ -3,11 +3,13 @@ import api from "../../../uteis/api";
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-
+import Alert from 'react-bootstrap/Alert'
 import {BrowserRouter as Router, Route, Link, Redirect} from 'react-router-dom'
+import Logo from '../../../res/imagens/logoInclude.png'
 
 import BgLogin from '../../componentes/BgLogin.react';
 import Cadastro from './Cadastro.react'
+
 
 import './login.css';
 
@@ -19,6 +21,7 @@ class Login extends Component {
     super();
     this.state = {
         authSuccess: null,
+        show: false,
     };
     document.body.style.overflow = "hidden";
   }
@@ -31,6 +34,27 @@ class Login extends Component {
       [name]: value,
     });
   }
+
+  erroUsuario = () => {
+    const { show } = this.state
+  
+    if (show) {
+      return (
+        <Alert variant="danger"  onClose={() => this.fecharAlerta()} dismissible >
+          <p>
+            Usuário ou Senha incorretos. Tente novamente!
+          </p>
+        </Alert>
+      );
+    }
+  }
+
+  fecharAlerta = () => {
+    this.setState({
+      show : false,
+    });
+  }
+  
       
   entrar = async submitted => {
     const {email, senha} = this.state
@@ -40,25 +64,29 @@ class Login extends Component {
       senha
     }
 
-    const response = await api.post("/usuario/auth", values);
-    console.log(response);
-    if(response.status === 200){
-      this.setState({
-        authSuccess : true
-      })
-      localStorage.setItem('id',response.data.id);
-      localStorage.setItem('nome',response.data.nome);
-    } else {
-      this.setState({
-        authSuccess : false
-      })
-    }
+    await api
+    .post(`usuario/auth`, values)
+    .then(async response => {
+      console.log(response)
+      if (response.status === 200) {
+        await localStorage.setItem('id',response.data.id);
+        await localStorage.setItem('nome',response.data.nome);
+        this.setState({
+          authSuccess : true
+        })
+      } else {
+        this.setState({
+          authSuccess : false,
+          show: true,
+        })
+      }
+    });
   };
 
   renderRedirect = () => {
     const { authSuccess } = this.state;
     if (authSuccess) {
-      return <Redirect to="/home" />;
+      return <Redirect to="/home"/>;
     }
      else if(!authSuccess){
        console.log("error")
@@ -68,6 +96,7 @@ class Login extends Component {
 
 
   render() {
+    const {authSuccess} = this.state
     return (
       <div>
         {this.renderRedirect()}
@@ -80,26 +109,32 @@ class Login extends Component {
         >
           <Button variant="link" className="RegisterBtn" > Cadastre-se!</Button>
         </Link>
+        {(authSuccess)? null : this.erroUsuario()}
         <div>
-            <Form className="FormLogin">
-                <Form.Group  controlId="formPlaintextLogin">
-                    <Form.Control
-                      name="email" 
-                      type="text" 
-                      placeholder="Email"
-                      onChange={this.handleChange}
-                    />   
-                </Form.Group>
-                <Form.Group  controlId="formPlaintextPassword">
-                    <Form.Control 
-                      name="senha"
-                      type="password" 
-                      placeholder="Senha" 
-                      onChange={this.handleChange}
-                    />   
-                </Form.Group>
-            </Form>
-            <Button variant="flat" className="LoginBtn" onClick={() => this.entrar()} >Entrar</Button>
+          <Form className="FormLogin">
+            <div className="LogoDiv">
+              <img src={Logo}/>
+            </div>
+            <Form.Group  controlId="formPlaintextLogin">
+                <Form.Control
+                  name="email" 
+                  type="text" 
+                  placeholder="Email"
+                  onChange={this.handleChange}
+                />   
+            </Form.Group>
+            <Form.Group  controlId="formPlaintextPassword">
+                <Form.Control 
+                  name="senha"
+                  type="password" 
+                  placeholder="Senha" 
+                  onChange={this.handleChange}
+                />   
+            </Form.Group>
+            <div className='divButtonLogin'>
+              <Button variant="flat" className="LoginBtn" onClick={() => this.entrar()} >Entrar</Button>  
+            </div>
+          </Form>
         </div>
       </div>
     );

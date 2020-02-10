@@ -42,7 +42,7 @@ const color = [
 	}
 	  
 	componentDidMount = async () => {
-		const {salas} = this.state;
+		const { salas } = this.state;
 		const id =  await localStorage.getItem("id");
 		await api
 		  .get(`sala/listar/${id}` )
@@ -164,44 +164,44 @@ const color = [
 				{this.renderRedirect()}
 				{this.renderRedirectSalaFechada()}
 				<Navb principal={true}/>
-					<div>
-						<h1 className="styleText">Salas Abertas</h1>
-						{(salasAbertas.length > 0)
-							? (
-								<Carrousel
-									salas={this.salasAbertas(salasAbertas)}
-								/>
-							) : (
-								<div className="divSemSalas">
-									<h4>
-										Sem salas abertas no momento
-									</h4>
-									<p>
-										Clique em
-										<b> Criar Sala </b>
-										no topo da página para criar uma nova
-										sala.
-									</p>
-								</div>
-							)
-						}
-					</div>
-					<div>
-						<h1 className="styleText" style={{paddingTop: 0}}>Salas Fechadas</h1>
-						{(salasFechadas.length > 0)
-							? (
-								<Carrousel
-									salas={this.salasFechadas(salasFechadas)}
-								/>
-							) : (
-								<div className="divSemSalas">
-									<h4>
-										Sem salas fechadas no momento
-									</h4>
-								</div>
-							)
-						}
-					</div>
+				<div>
+					<h1 className="styleText">Salas Abertas</h1>
+					{(salasAbertas.length > 0)
+						? (
+							<Carrousel
+								salas={this.salasAbertas(salasAbertas)}
+							/>
+						) : (
+							<div className="divSemSalas">
+								<h4>
+									Sem salas abertas no momento
+								</h4>
+								<p>
+									Clique em
+									<b> Criar Sala </b>
+									no topo da página para criar uma nova
+									sala.
+								</p>
+							</div>
+						)
+					}
+				</div>
+				<div>
+					<h1 className="styleText" style={{paddingTop: 0}}>Salas Fechadas</h1>
+					{(salasFechadas.length > 0)
+						? (
+							<Carrousel
+								salas={this.salasFechadas(salasFechadas)}
+							/>
+						) : (
+							<div className="divSemSalas">
+								<h4>
+									Sem salas fechadas no momento
+								</h4>
+							</div>
+						)
+					}
+				</div>
 			</div> 
 		)
 	}

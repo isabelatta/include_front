@@ -16,6 +16,16 @@
     font-size: 15px;
 }
 
+.navLogout {
+    color: #F95F62 !important;
+    font-weight: 800 !important;
+    font-size: 15px;
+}
+
+.navLogo {
+    width: 50%;
+}
+
 .navTituloPage {
     font-family: unset;
     z-index: 1;

@@ -6,6 +6,9 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Popover from 'react-bootstrap/Popover'
+import {Redirect} from 'react-router-dom'
+import Alert from 'react-bootstrap/Alert'
+import Logo from '../../../res/imagens/logoInclude.png'
 
 import { IoMdClose } from "react-icons/io";
 import { IoMdCheckmark } from "react-icons/io";
@@ -25,9 +28,11 @@ class Cadastro extends Component {
       messageSenha: "Insira uma senha de no mínimo 6 caracteres",
       checkEmail: null,
       checkNome: null,
-      checkSenha: null
-
+      checkSenha: null,
+      cadastro: false,
+      show: false
     };
+    document.body.style.overflow = "hidden";
   }
 
   handleChange = (event) => {
@@ -36,6 +41,27 @@ class Cadastro extends Component {
     const value = target.value;
     this.setState({
       [name]: value,
+    });
+  }
+
+
+  erroUsuario = () => {
+    const { show } = this.state
+  
+    if (show) {
+      return (
+        <Alert variant="danger"  onClose={() => this.fecharAlerta()} dismissible >
+          <p>
+            Este email já possui cadastro.
+          </p>
+        </Alert>
+      );
+    }
+  }
+
+  fecharAlerta = () => {
+    this.setState({
+      show : false,
     });
   }
       
@@ -51,11 +77,23 @@ class Cadastro extends Component {
     await this.check()
 
     const { checkEmail, checkNome, checkSenha } = this.state;
-    console.warn(checkSenha);
 
     if(checkEmail && checkNome && checkSenha){
-      const response = await api.post("/usuario/cadastrar", values);
-      console.log(response);
+      await api
+		  .post(`usuario/cadastrar`, values)
+		  .then(response => response.data)
+		  .then(results => {
+        if (results.errorMsg) {
+          console.log(results.errorMsg);
+          this.setState({
+            show: true,
+          });
+        } else {
+          this.setState({
+            cadastro: true,
+          });
+        }
+      });
     }
     
   };
@@ -240,14 +278,30 @@ class Cadastro extends Component {
   }
 
 
+  renderRedirect = () => {
+    const { cadastro } = this.state;
+    if (cadastro) {
+      return <Redirect to="/" />;
+    }
+     else {
+       console.log("error")
+     }
+  };
+
+
   render() {
     const { checkEmail, checkNome, checkSenha} = this.state;
     
     return (
       <div>
         <BgLogin/>
+        {this.renderRedirect()}
+        {this.erroUsuario()}
         <div>
             <Form className="FormCadastro">
+              <div className="LogoDiv">
+                <img src={Logo}/>
+              </div>
               <OverlayTrigger placement="right" overlay={this.popoverEmail()}>
                 <Form.Group controlId="email">
                   {(checkEmail !== null )? this.emailCheck() : null}
@@ -281,8 +335,10 @@ class Cadastro extends Component {
                   />  
                 </Form.Group>
               </OverlayTrigger>
+              <div className="divButtonLogin">
+                <Button variant="flat" className="LoginBtn" onClick={() => this.cadastrar()}> Cadastrar </Button>
+              </div>
             </Form>
-          <Button variant="flat" className="LoginBtn" onClick={() => this.cadastrar()}> Cadastrar </Button>
         </div>
     </div>
     );
