@@ -19,6 +19,7 @@ const coresEntradasSaidas = [
   '#00A6FF'
 ];
 
+const TIMESAVE = 50;
 
 class Dashboard extends Component {
 	constructor() {
@@ -47,6 +48,9 @@ class Dashboard extends Component {
     // this.setState({
     //   salaId
     // })
+
+    this.countdown = setInterval(this.timer, TIMESAVE);
+
     await api
 		  .get(`dashboard/atividade/${salaId}` )
 		  .then(response => response.data)
@@ -83,6 +87,22 @@ class Dashboard extends Component {
       });
    
   };
+
+  timer = async () => {
+    const { salaId } = this.props.location.state;
+
+    await api
+    .get(`dashboard/listarEquipes/${salaId}` )
+    .then(response => response.data)
+    .then(results => {
+      if (results) {
+        // console.log(results)
+        this.setState({
+          equipes: results,
+        });
+      }
+    });
+  }
   
   
 

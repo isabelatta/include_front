@@ -17,12 +17,13 @@ class Navb extends Component {
 		this.state = {
 			modalShow: false,
 			log: false,
+			redirectDash: false
 		}    
 	}
 
 	renderPrimeiroElemento = () => {
 		const prof = "Professor(a) " + localStorage.getItem("nome");
-		const {principal, aluno, equipe} = this.props;
+		const { principal, aluno, equipe, professor } = this.props;
 
 		if (principal) {
 			return(
@@ -40,6 +41,15 @@ class Navb extends Component {
 					{equipe}
 				</Nav>
 			)
+		} else if (professor) {
+			return(
+				<Nav.Link className="navProf">
+				<IoMdArrowBack
+					style={{ fontSize: 30, color: '#CCC' }}
+					onClick = {() => this.setState({ redirectDash: true }) }
+				/>
+			</Nav.Link>
+			)
 		}
 		return(
 			<Nav.Link href="/home" className="navProf">
@@ -47,6 +57,8 @@ class Navb extends Component {
 			</Nav.Link>
 		)
 	}
+
+
 
 	renderSegundoElemento= () => {
 		const { nomePagina, principal } = this.props;
@@ -104,7 +116,46 @@ class Navb extends Component {
         />
       )
     }
-  }
+	}
+
+	teste = () => {
+		const { redirectDash } = this.state;	
+		const { fechada, salaId } =  this.props;
+
+		if (redirectDash) {
+			return (
+			  <Redirect
+			    to={{
+			      pathname: "/dashboard",
+			      state: {
+							salaId,
+							fechada,
+			      }
+			    }}
+			  />
+			)
+		}
+	}
+	
+	// renderRedirectDash = () => {
+	// 	const { redirect } = this.state
+	// 	const { fechada, salaId } =  this.props.location.state
+
+  //   if (redirect) {
+	// 		console.log("aaa")
+  //     // return (
+  //     //   <Redirect
+  //     //     to={{
+  //     //       pathname: "/dashboard",
+  //     //       state: {
+	// 		// 				salaId,
+	// 		// 				fechada,
+  //     //       }
+  //     //     }}
+  //     //   />
+  //     // )
+  //   }
+	// }
 
 	render(){
 	
@@ -113,6 +164,8 @@ class Navb extends Component {
 		return(
 			<div className="divBorder">
 				{this.renderRedirect()}
+				{this.teste()}
+				{/* {this.renderRedirectDash()} */}
 				<Navbar expand="lg" className="navBg">
 					{this.renderPrimeiroElemento()}
 					{this.renderSegundoElemento()}

@@ -9,8 +9,6 @@ import {BrowserRouter as Router, Route, Link, Redirect} from 'react-router-dom'
 import BgLogin from '../componentes/BgLogin.react';
 import './codigoSala.css';
 
-
-
 class CodigoSala extends Component {
 
   constructor() {

@@ -8,7 +8,7 @@ import {
 
 import './modalEquipe.css'
 
-import imagemTopo from '../../../res/imagens/creative.png'
+import imagemTopo from '../../../res/imagens/logoInclude.png'
 
 
 class ModalEquipe extends Component {

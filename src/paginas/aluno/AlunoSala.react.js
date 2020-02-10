@@ -201,7 +201,8 @@ class AlunoSala extends Component {
 
 
   render() {
-    const { readOnly } = this.props.location.state;
+    const { readOnly} = this.props.location.state;
+
     const {
       nomeEquipe,
       infoSala,
@@ -215,12 +216,26 @@ class AlunoSala extends Component {
         show={showModalNomeEquipe}
         func={this.salvarNomeEquipe}
       />
-      <Navb 
-        nomePagina={(infoSala) ? infoSala.nome : "Sala sem nome"} 
-        equipe={nomeEquipe} 
-        principal={false} 
-        aluno={true}
-      />
+      {(readOnly && infoSala) 
+      ?
+      ( <Navb 
+          nomePagina={(infoSala) ? infoSala.nome : "Sala sem nome"} 
+          equipe={nomeEquipe} 
+          principal={false} 
+          aluno={false}
+          fechada = {infoSala.aberta}
+          salaId = {infoSala.sala_id}
+          professor = {true}
+      /> )
+      :
+      ( <Navb 
+          nomePagina={(infoSala) ? infoSala.nome : "Sala sem nome"} 
+          equipe={nomeEquipe} 
+          principal={false} 
+          aluno={true}
+        /> )
+      }
+      
         {(infoSala)
           ? (
             <div>

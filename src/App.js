@@ -61,8 +61,8 @@ function App() {
         <Route exact path='/home' component={SalaView} />
         <PrivateRoute exact path ='/criarAtividade' component={CriarAtividade}/>
         <PrivateRoute exact path ='/editarAtividade' component={CriarAtividade}/>
-        <PrivateRoute exact path ='/entrarSala' component={CodigoSala}/>
-        <PrivateRoute exact path ='/sala' component={AlunoSala}/>
+        <Route exact path ='/entrarSala' component={CodigoSala}/>
+        <Route exact path ='/sala' component={AlunoSala}/>
         <PrivateRoute exact path ='/dashboard' component={Dashboard}/>
       </Switch>
     </Router>

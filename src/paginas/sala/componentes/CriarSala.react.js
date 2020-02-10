@@ -8,6 +8,8 @@ import Form from 'react-bootstrap/Form';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Popover from 'react-bootstrap/Popover'
 import {Redirect} from 'react-router-dom'
+import { IoMdClose } from "react-icons/io";
+import { IoMdCheckmark } from "react-icons/io";
 
 import './modal.css'
 
@@ -20,8 +22,8 @@ class CriarSala extends Component {
       descri: null,
       messageNome: "Crie um nome para a sala",
       messageDescri: "Insira uma descrição para sala",
-      checkNome: false,
-      checkDescri: false,
+      checkNome: null,
+      checkDescri: null,
     }   
   }
   
@@ -84,13 +86,13 @@ class CriarSala extends Component {
 
     if(nome === null){
       this.setState({
-        messageNome: "Crie um nome para a sala ",
+        messageNome: "Insira um nome para a sala ",
         checkNome: false,
       });
     }
     else if(nome.length < 5){
       this.setState({
-        messageNome: "O nome da sala deve conter mais que 5 caracteres",
+        messageNome: "A sala deve conter um nome superior a 5 caracteres",
         checkNome: false,
       });
     }
@@ -109,7 +111,7 @@ class CriarSala extends Component {
     }
     else if(descri.length <  5){
       this.setState({
-        messageDescri: "A descrição deve conter mais que 5 caracteres",
+        messageDescri: "O sala deve conter uma descrição superior a 5 caracteres",
         checkDescri: false,
       });
     }
@@ -146,6 +148,46 @@ class CriarSala extends Component {
     );
   }
 
+  nomeCheck = () => {
+    const { checkNome} = this.state;
+
+    const style = {
+      position: "absolute",
+      top: "15%",
+      left: "90%"
+    }
+    if(checkNome == true){
+      return(
+        <IoMdCheckmark style={style} />
+      )
+    } 
+    else {
+      return(
+        <IoMdClose style={style} />
+      )
+    }
+  }
+
+  descriCheck = () => {
+    const { checkDescri } = this.state;
+
+    const style = {
+      position: "absolute",
+      top: "35%",
+      left: "90%"
+    }
+    if(checkDescri == true){
+      return(
+        <IoMdCheckmark style={style} />
+      )
+    } 
+    else {
+      return(
+        <IoMdClose style={style} />
+      )
+    }
+  }
+
   renderRedirect = () => {
     const {salaId} = this.state
     if (salaId !== null) {
@@ -160,50 +202,56 @@ class CriarSala extends Component {
     }
   }
 
-  renderModal = (show, onHide, salaId) => (
-    <Modal
-      show={show}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-      onHide={() => this.onHideScreen(onHide)}
-      className="modalForm"
-    >
-      <Modal.Header closeButton className="headerModal">
-        <Modal.Title id="contained-modal-title-vcenter">
-          Criar Sala
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body style={{ padding: 40 }}>
-        <OverlayTrigger placement="top" overlay={this.popoverNome()}> 
-            <Form.Group  controlId="formPlaintextLogin">
-              <Form.Control
-                className="nameInput"
-                placeholder="Nome da Sala"
-                // size="lg"
-                name="nome" 
-                type="text" 
-                onChange={this.handleChange}
-              />
-            </Form.Group>
-        </OverlayTrigger>
-        <OverlayTrigger placement="top" overlay={this.popoverDescri()}> 
-          <Form.Group controlId="exampleForm.ControlTextarea1">
-            <Form.Control 
-              placeholder="Descrição da Sala"
-              as="textarea" 
-              rows="10" 
-              name="descri" 
-              onChange={this.handleChange} 
-            />
-          </Form.Group>
-        </OverlayTrigger>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button className="btnModal" onClick={this.cadastrar}> Criar Sala </Button>
-      </Modal.Footer>
-    </Modal>
-  )
+  renderModal = (show, onHide, salaId) => {
+    const {checkNome, checkDescri} = this.state
+
+    return (
+        <Modal
+          show={show}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+          onHide={() => this.onHideScreen(onHide)}
+          className="modalForm"
+        >
+          <Modal.Header closeButton className="headerModal">
+            <Modal.Title id="contained-modal-title-vcenter">
+              Criar Sala
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body style={{ padding: 40 }}>
+            <OverlayTrigger placement="top" overlay={this.popoverNome()}> 
+                <Form.Group  controlId="formPlaintextLogin">
+                  <Form.Control
+                    className="nameInput"
+                    placeholder="Nome da Sala"
+                    // size="lg"
+                    name="nome" 
+                    type="text" 
+                    onChange={this.handleChange}
+                  />
+                  {(checkNome !== null )? this.nomeCheck() : null}
+                </Form.Group>
+            </OverlayTrigger>
+            <OverlayTrigger placement="top" overlay={this.popoverDescri()}> 
+              <Form.Group controlId="exampleForm.ControlTextarea1">
+                <Form.Control 
+                  placeholder="Descrição da Sala"
+                  as="textarea" 
+                  rows="10" 
+                  name="descri" 
+                  onChange={this.handleChange} 
+                />
+                {(checkDescri !== null )? this.descriCheck() : null}
+              </Form.Group>
+            </OverlayTrigger>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button className="btnModal" onClick={this.cadastrar}> Criar Sala </Button>
+          </Modal.Footer>
+        </Modal>
+      )
+  }
 
 
 
