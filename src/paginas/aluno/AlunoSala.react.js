@@ -10,6 +10,7 @@ import InitButton from '../componentes/InitButton.react';
 
 import { Row, Col, Button } from 'react-bootstrap';
 import sweetAlertWarn from '../../uteis/sweetAlert';
+import { IoMdStar} from "react-icons/io";
 
 
 
@@ -32,6 +33,7 @@ class AlunoSala extends Component {
       entradasSaidas: [],
       showModalNomeEquipe: true,
       idEquipe: null,
+      correcao: [],
     };
     
   }
@@ -66,6 +68,7 @@ class AlunoSala extends Component {
 		  .then(response => response.data)
 		  .then(results => {
 				if (results) {
+          console.log(results)
 					this.setState({
             entradasSaidas: results.entradasSaidas
 					});
@@ -83,15 +86,42 @@ class AlunoSala extends Component {
   }
 
   corrigirAtiv = (code) => {
-    let teste = "x = -2";
-    let valid = true;
-    teste = teste.replace(/\s/g, "").toLowerCase();
-    const resultado = code.replace(/\s/g, "").toLowerCase();
-    Array.from(teste).forEach((element, index) => {
-      if (element !== resultado[index]) {
-        valid = false;
+    const { entradasSaidas, correcao: correcaoState } = this.state
+    let correcao = [];
+    
+    if (correcaoState.length === 0) {
+      entradasSaidas.forEach((s,i) => {
+        correcao[i] = false
+      })
+    } else {
+      correcao = correcaoState;
+    }
+    
+    
+    entradasSaidas.forEach((eS, index) => {
+      let valid = true;
+      let saida = eS.saida;
+      
+      const stringTeste = code.toString();
+      saida = saida.replace(/\s/g, "").toLowerCase();
+      const resultado = stringTeste.replace(/\s/g, "").toLowerCase();
+      Array.from(saida).forEach((element, index) => {
+        if (element !== resultado[index]) {
+          valid = false;
+        }
+      });
+      
+      if (valid) {
+        correcao[index] = true;
       }
+      
+
     });
+
+    console.log(correcao)
+    this.setState({
+      correcao
+    })
 
   } 
 
@@ -149,23 +179,35 @@ class AlunoSala extends Component {
   }
 
   renderEntradas = (entradasSaidas) => {
+    const {correcao} = this.state
     const entradas = [];
     let cor = 0;
-    entradasSaidas.forEach(eS => {
+    
+    entradasSaidas.forEach((eS, index) => {
       const corBotao = coresEntradasSaidas[cor];
       entradas.push(
-        <Button
-          className="checkButton"
-          block
-          style={{
-            backgroundColor: corBotao,
-            borderColor: corBotao,
-            maxWidth: 500,
-            marginTop: '3%',
-          }}
-        >
-          {eS.entrada}
-        </Button>
+        <div style={{ display: 'flex', flexDirection: 'row' }}>
+          <Button
+            className="checkButton"
+            block
+            style={{
+              backgroundColor: corBotao,
+              borderColor: corBotao,
+              maxWidth: 500,
+              marginTop: '3%',
+            }}
+          >
+            {eS.entrada}
+          </Button>
+
+          {(correcao[index])
+            
+            ? <IoMdStar style={{ fontSize: 40, alignSelf: 'flex-end', padding: 2, color: "#FF9052" }}/>
+            : null
+          
+          }
+          
+        </div>
       )
       cor++;
       if (cor === 3) cor = 0;
@@ -208,6 +250,7 @@ class AlunoSala extends Component {
       infoSala,
       entradasSaidas,
       showModalNomeEquipe,
+      correcao
     } = this.state;
 
     return (
@@ -252,7 +295,7 @@ class AlunoSala extends Component {
                       </h3>
                       {this.renderEntradas(entradasSaidas)}
                     </div>
-                    <InitButton tituloBtn="Finalizar Atividade" funcao={this.finalizarAtiv}/>
+                    <InitButton tituloBtn="Finalizar Atividade" funcao={this.finalizarAtiv} disabled/>
                   </Col>
                 
                 </Row>

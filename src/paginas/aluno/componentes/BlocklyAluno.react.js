@@ -75,9 +75,10 @@ class BlocklyAluno extends Component {
   }
 
   generateCode = () => {
-    const {corrigirAtiv} = this.props
+    const { corrigirAtiv } = this.props
     const xmlText = this.simpleWorkspace.getXml();
     var code = BlocklyJS.workspaceToCode(this.simpleWorkspace.workspace);
+    console.log(code);
     // const teste = eval(code);
     var result = eval('(function() {' + code + '}())');
     window.alert(result);
