@@ -42,8 +42,8 @@ class CriarSala extends Component {
       descri: null,
       messageNome: "Crie um nome para a sala",
       messageDescri: "Insira uma descrição para sala",
-      checkNome: false,
-      checkDescri: false,
+      checkNome: null,
+      checkDescri: null,
       salaId: null,
     })
     onHide();

@@ -220,7 +220,7 @@ class Cadastro extends Component {
 
     const style = {
       position: "absolute",
-      top: "6%",
+      top: "32%",
       left: "90%"
     }
     if(checkEmail == true){
@@ -241,7 +241,7 @@ class Cadastro extends Component {
 
     const style = {
       position: "absolute",
-      top: "40%",
+      top: "52%",
       left: "90%"
     }
     if(checkNome){
@@ -262,7 +262,7 @@ class Cadastro extends Component {
 
     const style = {
       position: "absolute",
-      top: "74%",
+      top: "70%",
       left: "90%"
     }
     if(checkSenha === true){
@@ -300,7 +300,7 @@ class Cadastro extends Component {
         <div>
             <Form className="FormCadastro">
               <div className="LogoDiv">
-                <img src={Logo}/>
+                <img src={Logo} style={{width:"75%"}}/>
               </div>
               <OverlayTrigger placement="right" overlay={this.popoverEmail()}>
                 <Form.Group controlId="email">

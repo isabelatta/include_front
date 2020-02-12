@@ -97,26 +97,37 @@ class AlunoSala extends Component {
       correcao = correcaoState;
     }
     
-    
-    entradasSaidas.forEach((eS, index) => {
-      let valid = true;
-      let saida = eS.saida;
-      
-      const stringTeste = code.toString();
-      saida = saida.replace(/\s/g, "").toLowerCase();
-      const resultado = stringTeste.replace(/\s/g, "").toLowerCase();
-      Array.from(saida).forEach((element, index) => {
-        if (element !== resultado[index]) {
-          valid = false;
-        }
-      });
-      
-      if (valid) {
-        correcao[index] = true;
-      }
-      
+    if(code) {
 
-    });
+      entradasSaidas.forEach((eS, index) => {
+        let valid = true;
+        let saida = eS.saida;
+  
+        console.log(code)
+        console.log(eS)
+  
+        const stringTeste = code.toString();
+        saida = saida.replace(/\s/g, "").toLowerCase();
+        const resultado = stringTeste.replace(/\s/g, "").toLowerCase();
+        Array.from(saida).forEach((element, index) => {
+          if (element !== resultado[index]) {
+            valid = false;
+            console.log("entrei")
+          }
+        });
+        
+        if (valid) {
+          correcao[index] = true;
+        }
+        
+        console.log(correcao)
+        
+  
+      });
+
+    }
+    
+    
 
     console.log(correcao)
     this.setState({
@@ -199,14 +210,10 @@ class AlunoSala extends Component {
           >
             {eS.entrada}
           </Button>
-
           {(correcao[index])
-            
             ? <IoMdStar style={{ fontSize: 40, alignSelf: 'flex-end', padding: 2, color: "#FF9052" }}/>
             : null
-          
-          }
-          
+          } 
         </div>
       )
       cor++;
@@ -242,6 +249,7 @@ class AlunoSala extends Component {
   }
 
 
+
   render() {
     const { readOnly} = this.props.location.state;
 
@@ -252,6 +260,14 @@ class AlunoSala extends Component {
       showModalNomeEquipe,
       correcao
     } = this.state;
+
+    let showBtn = false
+    let verdadeiro = 0
+      
+    for(let i=0; i<correcao.length; i++){
+        if(correcao[i] == true) verdadeiro++
+        if(verdadeiro == correcao.length) showBtn = true
+    }
 
     return (
       <div>
@@ -287,7 +303,6 @@ class AlunoSala extends Component {
                   <Col xs={6}>
                     {this.renderDescricaoAtiv(infoSala)}
                   </Col>
-
                   <Col xs={6}>
                     <div>
                       <h3 className="tituloAtividade">
@@ -295,7 +310,14 @@ class AlunoSala extends Component {
                       </h3>
                       {this.renderEntradas(entradasSaidas)}
                     </div>
-                    <InitButton tituloBtn="Finalizar Atividade" funcao={this.finalizarAtiv} disabled/>
+                    {
+                      (showBtn) 
+
+                      ? <InitButton tituloBtn="Finalizar Atividade" funcao={this.finalizarAtiv} />
+
+                      : null
+                    }
+                    
                   </Col>
                 
                 </Row>

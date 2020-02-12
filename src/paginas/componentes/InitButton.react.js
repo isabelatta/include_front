@@ -23,7 +23,7 @@ class InitButton extends Component {
   }
 
   divSuperStyle = {
-    marginTop: 40,
+    marginTop: 25,
     display: 'flex',
     flex: 1,
     justifyContent: 'center',
@@ -32,6 +32,7 @@ class InitButton extends Component {
 
   render(){
     const { funcao, tituloBtn} = this.props;
+    
     return (
       <div style={this.divSuperStyle}>
         <Button

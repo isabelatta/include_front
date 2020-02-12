@@ -98,7 +98,7 @@ const color = [
 						className= "styleCard"
 						onClick={() => this.setState({salaIdRedirectSalaFechada: sala.id})}
 					>
-							<Card.Header className = "styleCardHeader" style={{ backgroundColor: "#77D353" }}>
+							<Card.Header className = "styleCardHeader" style={{ backgroundColor: sala.cor }}>
 								{sala.assunDesc}
 							</Card.Header>
 							<Card.Body className="styleCardBody">

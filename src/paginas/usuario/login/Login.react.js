@@ -113,7 +113,7 @@ class Login extends Component {
         <div>
           <Form className="FormLogin">
             <div className="LogoDiv">
-              <img src={Logo}/>
+              <img src={Logo} style={{width:"75%"}}/>
             </div>
             <Form.Group  controlId="formPlaintextLogin">
                 <Form.Control

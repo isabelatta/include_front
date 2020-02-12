@@ -54,7 +54,7 @@ class CriarSala extends Component {
       className="modalEntrSaid"
     >
       <div className="divEntSaida">
-        <h3>Informe as entradas e saída esperadas</h3>
+        <h3>Informe as Entradas e Saídas esperadas</h3>
 
         <Form>
           <Form.Row>
