@@ -33,7 +33,7 @@ class AlunoSala extends Component {
       entradasSaidas: [],
       showModalNomeEquipe: true,
       idEquipe: null,
-      correcao: [],
+      correcao: [true, true, true, true],
     };
     
   }
@@ -304,7 +304,7 @@ class AlunoSala extends Component {
                     {this.renderDescricaoAtiv(infoSala)}
                   </Col>
                   <Col xs={6}>
-                    <div>
+                    <div style={{ maxHeight: '62%', overflow: 'auto' }}> 
                       <h3 className="tituloAtividade">
                         Entradas
                       </h3>

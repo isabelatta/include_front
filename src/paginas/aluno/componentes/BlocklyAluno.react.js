@@ -81,8 +81,14 @@ class BlocklyAluno extends Component {
     console.log(code);
     // const teste = eval(code);
     var result = eval('(function() {' + code + '}())');
-    window.alert(result);
-    corrigirAtiv(result);
+    if(!result) { 
+      let mensagem = "Utilize o Bloco Imprime para visualizar seu resultado"
+      window.alert(mensagem)
+    } else {
+      window.alert(result);
+      corrigirAtiv(result);
+    }
+    
   }
 
   
