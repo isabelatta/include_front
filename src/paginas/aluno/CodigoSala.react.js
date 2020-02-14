@@ -3,6 +3,8 @@ import api from "../../uteis/api";
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Logo from '../../res/imagens/logoInclude.png'
+
 
 import {BrowserRouter as Router, Route, Link, Redirect} from 'react-router-dom'
 

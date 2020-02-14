@@ -33,7 +33,7 @@ class AlunoSala extends Component {
       entradasSaidas: [],
       showModalNomeEquipe: true,
       idEquipe: null,
-      correcao: [true, true, true, true],
+      correcao: [],
     };
     
   }
@@ -126,17 +126,13 @@ class AlunoSala extends Component {
       });
 
     }
-    
-    
-
+  
     console.log(correcao)
     this.setState({
       correcao
     })
 
   } 
-
-
 
 
   renderDescricaoAtiv = (infoSala) => (
@@ -304,7 +300,7 @@ class AlunoSala extends Component {
                     {this.renderDescricaoAtiv(infoSala)}
                   </Col>
                   <Col xs={6}>
-                    <div style={{ maxHeight: '62%', overflow: 'auto' }}> 
+                    <div style={{ maxHeight: '70%', overflow: 'auto' }}> 
                       <h3 className="tituloAtividade">
                         Entradas
                       </h3>
@@ -312,14 +308,10 @@ class AlunoSala extends Component {
                     </div>
                     {
                       (showBtn) 
-
                       ? <InitButton tituloBtn="Finalizar Atividade" funcao={this.finalizarAtiv} />
-
                       : null
                     }
-                    
                   </Col>
-                
                 </Row>
               </div>
               <div>
